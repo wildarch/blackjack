@@ -7,3 +7,13 @@ rust_binary(
     edition = "2018",
     visibility = ["//visibility:public"],
 )
+
+genrule(
+    name = "blackjack_output",
+    srcs = ["Cargo.toml", "Cargo.lock"],
+    outs = ["workspace"],
+    cmd = "$(location //:blackjack) $(location @blackjack_cargo//:cargo) $$(readlink -e $(location Cargo.toml)) > $@",
+    #cmd = "$(location @blackjack_cargo//:cargo) metadata --manifest-path=$$(readlink -e $(location Cargo.toml)) --frozen --offline > $@",
+    tools = ["//:blackjack", "@blackjack_cargo//:cargo"],
+
+)

@@ -13,13 +13,20 @@ struct BlackjackMetadata {
 }
 
 fn main() {
-    let metadata = MetadataCommand::new()
-        .other_options(vec!["--frozen".to_string(), "--offline".to_string()])
-        .exec()
-        .unwrap();
+    let mut metadata = MetadataCommand::new();
+    metadata.other_options(vec!["--frozen".to_string(), "--offline".to_string()]);
+    let mut args = std::env::args();
+    // Drop self argument
+    let _ = args.next();
+    if let Some(cargo_path) = args.next() {
+        metadata.cargo_path(cargo_path);
+    }
+    if let Some(manifest_path) = args.next() {
+        metadata.manifest_path(manifest_path);
+    }
+    let metadata = metadata.exec().unwrap();
 
     let root_id = metadata.resolve.as_ref().unwrap().root.as_ref().unwrap();
-    eprintln!("root id: {}", root_id);
     let root_package = metadata.packages.iter().find(|p| &p.id == root_id).unwrap();
     let blackjack_metadata =
         serde_json::from_value::<BlackjackMetadataWrapper>(root_package.metadata.clone())
@@ -30,27 +37,8 @@ fn main() {
         r#"
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-http_archive(
-    name = "io_bazel_rules_rust",
-    strip_prefix = "rules_rust-fdf9655ba95616e0314b4e0ebab40bb0c5fe005c",
-    urls = [
-        "https://github.com/bazelbuild/rules_rust/archive/fdf9655ba95616e0314b4e0ebab40bb0c5fe005c.zip",
-    ],
-)
-
-http_archive(
-    name = "bazel_skylib",
-    sha256 = "12ee3a5732e8c353fce4a710dbe045a16a161c49c79622faa1f2813f668bb442",
-    strip_prefix = "bazel-skylib-8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0",
-    url = "https://github.com/bazelbuild/bazel-skylib/archive/8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0.tar.gz",  # 2020-07-10
-)
-
-load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
-rust_repositories()
-
-load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
-bazel_version(name = "bazel_version")
-        "#
+def cargo_dependencies():
+"#
     );
 
     for package in &metadata.packages {
@@ -139,7 +127,7 @@ rust_library(
     proc_macro_deps = {proc_macro_deps:?},
     edition = "{edition}",
     crate_features = {crate_features:?},
-    rustc_flags = {rustc_flags:?},
+    rustc_flags = ["--cap-lints=allow"] + {rustc_flags:?},
     visibility = ["//visibility:public"],
 )
     "#,
@@ -160,13 +148,13 @@ fn render_archive(
 ) -> String {
     format!(
         r#"
-http_archive(
-    name = "{sanitized_name}",
-    url = "https://crates.io/api/v1/crates/{name}/{version}/download",
-    strip_prefix = "{name}-{version}",
-    type = "tar.gz",
-    build_file_content = """{build_file_content}""",
-)
+    http_archive(
+        name = "{sanitized_name}",
+        url = "https://crates.io/api/v1/crates/{name}/{version}/download",
+        strip_prefix = "{name}-{version}",
+        type = "tar.gz",
+        build_file_content = """{build_file_content}""",
+    )
     "#,
         sanitized_name = sanitize_name(&package.name),
         name = package.name,
