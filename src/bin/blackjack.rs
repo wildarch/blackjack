@@ -1,6 +1,11 @@
 use cargo_metadata::{DependencyKind, Metadata, MetadataCommand, Package, PackageId};
 use serde::Deserialize;
 use std::collections::HashMap;
+use std::io::Write;
+use std::path::Path;
+
+const CARGO_TOML_RUNFILES_PATH: &'static str = "Cargo.toml";
+const CARGO_RUNFILES_PATH: &'static str = "external/blackjack_cargo/cargo";
 
 #[derive(Debug, Deserialize, Default)]
 struct BlackjackMetadataWrapper {
@@ -13,18 +18,38 @@ struct BlackjackMetadata {
 }
 
 fn main() {
+    // This is somewhat of an implementation detail
+    let cargo_toml_path =
+        std::fs::read_link(CARGO_TOML_RUNFILES_PATH).expect("Failed to read Cargo.toml symlink");
+    let mut output_path = cargo_toml_path.clone();
+    output_path.pop();
+    output_path.push("cargo_dependencies.bzl");
+
     let mut metadata = MetadataCommand::new();
-    metadata.other_options(vec!["--frozen".to_string(), "--offline".to_string()]);
-    let mut args = std::env::args();
-    // Drop self argument
-    let _ = args.next();
-    if let Some(cargo_path) = args.next() {
-        metadata.cargo_path(cargo_path);
+    metadata
+        .manifest_path(cargo_toml_path)
+        .other_options(vec!["--frozen".to_string(), "--offline".to_string()]);
+
+    let cargo_runfiles_path = Path::new(CARGO_RUNFILES_PATH);
+    if cargo_runfiles_path.exists() {
+        eprintln!("Found cargo in runfiles: {}", cargo_runfiles_path.display());
+        metadata.cargo_path(cargo_runfiles_path);
+    } else {
+        eprintln!(
+            "Using default cargo in path. Working dir: {}",
+            std::env::current_dir().unwrap().display()
+        );
     }
-    if let Some(manifest_path) = args.next() {
-        metadata.manifest_path(manifest_path);
-    }
+
     let metadata = metadata.exec().unwrap();
+
+    eprintln!("Writing output to {}", output_path.display());
+    eprintln!("Press enter to continue, or Ctrl-C to abort");
+    std::io::stdin()
+        .read_line(&mut String::new())
+        .expect("Failed to read stdin");
+    let output = std::fs::File::create(output_path).expect("Could not open output file");
+    let mut output = std::io::BufWriter::new(output);
 
     let root_id = metadata.resolve.as_ref().unwrap().root.as_ref().unwrap();
     let root_package = metadata.packages.iter().find(|p| &p.id == root_id).unwrap();
@@ -33,18 +58,26 @@ fn main() {
             .unwrap_or_default()
             .blackjack;
 
-    println!(
+    writeln!(
+        output,
         r#"
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def cargo_dependencies():
 "#
-    );
+    )
+    .expect("Failed to write to output file");
 
-    for package in &metadata.packages {
+    // Sort the list of packages by package id to make the output deterministic
+    let mut packages = metadata.packages.clone();
+    packages.sort_by_key(|p| p.id.clone());
+
+    for package in packages {
         let archive = render_archive(&package, &metadata, &blackjack_metadata);
-        println!("{}", archive);
+        writeln!(output, "{}", archive).expect("Failed to write to output file");
     }
+
+    eprintln!("Done.");
 }
 
 #[derive(PartialEq)]

@@ -5,6 +5,75 @@ def cargo_dependencies():
 
 
     http_archive(
+        name = "blackjack",
+        url = "https://crates.io/api/v1/crates/blackjack/0.1.0/download",
+        strip_prefix = "blackjack-0.1.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "blackjack",
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@cargo_metadata//:cargo_metadata", "@serde//:serde", "@serde_json//:serde_json"],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "cargo_metadata",
+        url = "https://crates.io/api/v1/crates/cargo_metadata/0.10.0/download",
+        strip_prefix = "cargo_metadata-0.10.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "cargo_metadata",
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@semver//:semver", "@serde//:serde", "@serde_json//:serde_json"],
+    proc_macro_deps = ["@serde_derive//:serde_derive"],
+    edition = "2015",
+    crate_features = ["default"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "itoa",
+        url = "https://crates.io/api/v1/crates/itoa/0.4.6/download",
+        strip_prefix = "itoa-0.4.6",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "itoa",
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
         name = "proc_macro2",
         url = "https://crates.io/api/v1/crates/proc-macro2/1.0.18/download",
         strip_prefix = "proc-macro2-1.0.18",
@@ -51,21 +120,21 @@ rust_library(
     
 
     http_archive(
-        name = "cargo_metadata",
-        url = "https://crates.io/api/v1/crates/cargo_metadata/0.10.0/download",
-        strip_prefix = "cargo_metadata-0.10.0",
+        name = "ryu",
+        url = "https://crates.io/api/v1/crates/ryu/1.0.5/download",
+        strip_prefix = "ryu-1.0.5",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "cargo_metadata",
+    name = "ryu",
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@semver//:semver", "@serde//:serde", "@serde_json//:serde_json"],
-    proc_macro_deps = ["@serde_derive//:serde_derive"],
-    edition = "2015",
-    crate_features = ["default"],
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -74,21 +143,21 @@ rust_library(
     
 
     http_archive(
-        name = "serde",
-        url = "https://crates.io/api/v1/crates/serde/1.0.113/download",
-        strip_prefix = "serde-1.0.113",
+        name = "semver",
+        url = "https://crates.io/api/v1/crates/semver/0.9.0/download",
+        strip_prefix = "semver-0.9.0",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "serde",
+    name = "semver",
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = [],
-    proc_macro_deps = ["@serde_derive//:serde_derive"],
+    deps = ["@semver_parser//:semver_parser", "@serde//:serde"],
+    proc_macro_deps = [],
     edition = "2015",
-    crate_features = ["default", "derive", "serde_derive", "std"],
+    crate_features = ["default", "serde"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -120,21 +189,21 @@ rust_library(
     
 
     http_archive(
-        name = "semver",
-        url = "https://crates.io/api/v1/crates/semver/0.9.0/download",
-        strip_prefix = "semver-0.9.0",
+        name = "serde",
+        url = "https://crates.io/api/v1/crates/serde/1.0.113/download",
+        strip_prefix = "serde-1.0.113",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "semver",
+    name = "serde",
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@semver_parser//:semver_parser", "@serde//:serde"],
-    proc_macro_deps = [],
+    deps = [],
+    proc_macro_deps = ["@serde_derive//:serde_derive"],
     edition = "2015",
-    crate_features = ["default", "serde"],
+    crate_features = ["default", "derive", "serde_derive", "std"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -189,52 +258,6 @@ rust_library(
     
 
     http_archive(
-        name = "ryu",
-        url = "https://crates.io/api/v1/crates/ryu/1.0.5/download",
-        strip_prefix = "ryu-1.0.5",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "ryu",
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = [],
-    proc_macro_deps = [],
-    edition = "2018",
-    crate_features = [],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
-        name = "blackjack",
-        url = "https://crates.io/api/v1/crates/blackjack/0.1.0/download",
-        strip_prefix = "blackjack-0.1.0",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "blackjack",
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = ["@cargo_metadata//:cargo_metadata", "@serde//:serde", "@serde_json//:serde_json"],
-    proc_macro_deps = [],
-    edition = "2018",
-    crate_features = [],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
         name = "syn",
         url = "https://crates.io/api/v1/crates/syn/1.0.32/download",
         strip_prefix = "syn-1.0.32",
@@ -273,29 +296,6 @@ rust_library(
     proc_macro_deps = [],
     edition = "2015",
     crate_features = ["default"],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
-        name = "itoa",
-        url = "https://crates.io/api/v1/crates/itoa/0.4.6/download",
-        strip_prefix = "itoa-0.4.6",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "itoa",
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = [],
-    proc_macro_deps = [],
-    edition = "2015",
-    crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )

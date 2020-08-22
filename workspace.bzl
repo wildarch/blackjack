@@ -9,3 +9,28 @@ def blackjack_cargo():
       strip_prefix = "cargo-0.46.1-x86_64-unknown-linux-gnu/cargo/bin",
       build_file_content = """exports_files(["cargo"], visibility = ["//visibility:public"])""",
   )
+
+def _blackjack_repository_impl(ctx):
+  ctx.file("dummy", "dummy")
+  return
+
+  ctx.symlink(ctx.attr._blackjack, "blackjack")
+  ctx.symlink(ctx.attr.manifest, "manifest")
+
+  execution = ctx.execute(["blackjack", "manifest"])
+  if execution.return_code != 0:
+    fail(msg="Failed to run blackjack: " + execution.stderr)
+
+  ctx.file("cargo_dependencies.bzl", execution.stdout)
+
+blackjack_repository = repository_rule(
+    implementation = _blackjack_repository_impl,
+    local = False,
+    attrs = {
+        "manifest": attr.label(mandatory=True, allow_single_file=True),
+        "_blackjack": attr.label(
+            allow_files = True,
+            default=Label("@blackjack//:blackjack")
+        ),
+    },
+)

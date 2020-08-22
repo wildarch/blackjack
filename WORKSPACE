@@ -23,5 +23,5 @@ rust_repositories()
 load("@blackjack//:workspace.bzl", "blackjack_cargo")
 blackjack_cargo()
 
-load("@//:Cargo.bzl", "cargo_dependencies")
+load("@//:cargo_dependencies.bzl", "cargo_dependencies")
 cargo_dependencies()
