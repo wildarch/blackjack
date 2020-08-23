@@ -1,13 +1,5 @@
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_binary")
+exports_files(["src/bin/blackjack.rs"], visibility = ["//visibility:public"],)
 
-rust_binary(
-    name = "blackjack",
-    srcs = glob(["src/bin/blackjack.rs"]),
-    deps = ["@cargo_metadata", "@serde", "@serde_json"],
-    edition = "2018",
-    visibility = ["//visibility:public"],
-    data = [
-      "@blackjack_cargo//:cargo",
-      "Cargo.toml",
-    ],
-)
+load("@blackjack//:blackjack.bzl", "blackjack")
+
+blackjack(name = "blackjack")

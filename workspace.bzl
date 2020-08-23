@@ -1,4 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@blackjack//:cargo_dependencies.bzl", "cargo_dependencies")
 
 def blackjack_cargo():
   http_archive(
@@ -9,6 +10,8 @@ def blackjack_cargo():
       strip_prefix = "cargo-0.46.1-x86_64-unknown-linux-gnu/cargo/bin",
       build_file_content = """exports_files(["cargo"], visibility = ["//visibility:public"])""",
   )
+
+  cargo_dependencies()
 
 def _blackjack_repository_impl(ctx):
   ctx.file("dummy", "dummy")

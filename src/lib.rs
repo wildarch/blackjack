@@ -1,7 +1,10 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
+/*
+use cargo_metadata::PackageId;
+
+pub struct Crate {
+    package_id: PackageId,
+    /// The name of the crate as published on crates.io
+    name: String,
+    enabled_features: Vec<String>,
 }
+*/
