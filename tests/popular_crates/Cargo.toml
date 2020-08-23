@@ -7,3 +7,10 @@ edition = "2018"
 [dependencies]
 actix-web = "2.0"
 diesel = "1.4"
+
+# These settings are unnecessary because blackjack provides them by default
+#[package.metadata.blackjack.proc-macro2]
+#rustc_flags = ["--cfg=use_proc_macro"]
+#
+#[package.metadata.blackjack.proc-macro-nested]
+#build_script = true
