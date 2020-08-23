@@ -23,8 +23,6 @@ struct CrateOpts {
 #[derive(Debug, Deserialize, Default)]
 struct BlackjackMetadata {
     #[serde(default)]
-    rustc_flags: HashMap<String, Vec<String>>,
-    #[serde(default)]
     prefix: String,
 
     #[serde(flatten)]
