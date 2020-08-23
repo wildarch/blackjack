@@ -1,0 +1,123 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "io_bazel_rules_rust",
+    strip_prefix = "rules_rust-fdf9655ba95616e0314b4e0ebab40bb0c5fe005c",
+    urls = [
+        "https://github.com/bazelbuild/rules_rust/archive/fdf9655ba95616e0314b4e0ebab40bb0c5fe005c.zip",
+    ],
+)
+http_archive(
+    name = "bazel_skylib",
+    sha256 = "12ee3a5732e8c353fce4a710dbe045a16a161c49c79622faa1f2813f668bb442",
+    strip_prefix = "bazel-skylib-8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0",
+    url = "https://github.com/bazelbuild/bazel-skylib/archive/8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0.tar.gz",  # 2020-07-10
+)
+load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
+bazel_version(name = "bazel_version")
+load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
+rust_repositories()
+
+local_repository(
+    name = "blackjack",
+    path = "../..",
+)
+
+load("@blackjack//:workspace.bzl", "blackjack_cargo")
+blackjack_cargo()
+
+load("//:cargo_dependencies.bzl", "cargo_dependencies")
+cargo_dependencies()
+
+http_archive(
+    name = "libz_sys",
+    url = "https://crates.io/api/v1/crates/libz-sys/1.1.0/download",
+    sha256 = "af67924b8dd885cccea261866c8ce5b74d239d272e154053ff927dae839f5ae9",
+    strip_prefix = "libz-sys-1.1.0",
+    type = "tar.gz",
+    build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "libz_sys",
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@zlib"],
+    edition = "2015",
+    crate_features = ["static"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+)
+
+http_archive(
+    name = "zlib",
+    sha256 = "629380c90a77b964d896ed37163f5c3a34f6e6d897311f1df2a7016355c45eff",
+    strip_prefix = "zlib-1.2.11",
+    urls = ["https://github.com/madler/zlib/archive/v1.2.11.tar.gz"],
+    build_file_content = """
+# Taken from https://github.com/protocolbuffers/protobuf/blob/master/third_party/zlib.BUILD
+licenses(["notice"])  # BSD/MIT-like license (for zlib)
+
+_ZLIB_HEADERS = [
+    "crc32.h",
+    "deflate.h",
+    "gzguts.h",
+    "inffast.h",
+    "inffixed.h",
+    "inflate.h",
+    "inftrees.h",
+    "trees.h",
+    "zconf.h",
+    "zlib.h",
+    "zutil.h",
+]
+
+_ZLIB_PREFIXED_HEADERS = ["zlib/include/" + hdr for hdr in _ZLIB_HEADERS]
+
+# In order to limit the damage from the `includes` propagation
+# via `:zlib`, copy the public headers to a subdirectory and
+# expose those.
+genrule(
+    name = "copy_public_headers",
+    srcs = _ZLIB_HEADERS,
+    outs = _ZLIB_PREFIXED_HEADERS,
+    cmd = "cp $(SRCS) $(@D)/zlib/include/",
+)
+
+cc_library(
+    name = "zlib",
+    srcs = [
+        "adler32.c",
+        "compress.c",
+        "crc32.c",
+        "deflate.c",
+        "gzclose.c",
+        "gzlib.c",
+        "gzread.c",
+        "gzwrite.c",
+        "infback.c",
+        "inffast.c",
+        "inflate.c",
+        "inftrees.c",
+        "trees.c",
+        "uncompr.c",
+        "zutil.c",
+        # Include the un-prefixed headers in srcs to work
+        # around the fact that zlib isn't consistent in its
+        # choice of <> or "" delimiter when including itself.
+    ] + _ZLIB_HEADERS,
+    hdrs = _ZLIB_PREFIXED_HEADERS,
+    copts = select({
+        "@bazel_tools//src/conditions:windows": [],
+        "//conditions:default": [
+            "-Wno-unused-variable",
+            "-Wno-implicit-function-declaration",
+        ],
+    }),
+    includes = ["zlib/include/"],
+    visibility = ["//visibility:public"],
+)
+    """,
+)

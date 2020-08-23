@@ -1776,7 +1776,7 @@ rust_library(
     proc_macro_deps = [],
     edition = "2015",
     crate_features = ["default", "std"],
-    rustc_flags = ["--cap-lints=allow"] + [],
+    rustc_flags = ["--cap-lints=allow"] + ["--cfg=libc_priv_mod_use", "--cfg=libc_union", "--cfg=libc_const_size_of", "--cfg=libc_align", "--cfg=libc_core_cvoid", "--cfg=libc_packedN", "--cfg=libc_cfg_target_vendor"],
     visibility = ["//visibility:public"],
 )
     """,

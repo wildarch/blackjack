@@ -6,7 +6,6 @@ Adding Bazel support to an existing project is as simple as adding a `WORKSPACE`
 
 # TODO
 * Support custom build files for crates
-* Support replacing a crate with a different target
 
 # Would appreciate PR for:
 * Support for Windows and Mac

@@ -16,6 +16,8 @@ struct CrateOpts {
     build_script: bool,
     #[serde(default)]
     rustc_flags: Vec<String>,
+    #[serde(default)]
+    replace: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Default)]
@@ -49,6 +51,21 @@ fn default_crate_opts() -> Vec<(String, CrateOpts)> {
             "proc-macro-nested".to_string(),
             CrateOpts {
                 build_script: true,
+                ..Default::default()
+            },
+        ),
+        (
+            "libc".to_string(),
+            CrateOpts {
+                rustc_flags: vec![
+                    "--cfg=libc_priv_mod_use".to_string(),
+                    "--cfg=libc_union".to_string(),
+                    "--cfg=libc_const_size_of".to_string(),
+                    "--cfg=libc_align".to_string(),
+                    "--cfg=libc_core_cvoid".to_string(),
+                    "--cfg=libc_packedN".to_string(),
+                    "--cfg=libc_cfg_target_vendor".to_string(),
+                ],
                 ..Default::default()
             },
         ),
@@ -212,6 +229,15 @@ def cargo_dependencies():
     }
 
     fn dep_label(&self, package: &Package) -> String {
+        // Check if a replacement label has been configured
+        if let Some(CrateOpts {
+            replace: Some(label),
+            ..
+        }) = self.blackjack_metadata.crate_opts.get(&package.name)
+        {
+            return label.clone();
+        }
+
         if self.root_dependencies.contains(&package.id) {
             format!(
                 "@{prefix}_{name}//:{name}",
