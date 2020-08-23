@@ -5,9 +5,8 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "io_bazel_rules_rust",
     strip_prefix = "rules_rust-fdf9655ba95616e0314b4e0ebab40bb0c5fe005c",
-    urls = [
-        "https://github.com/bazelbuild/rules_rust/archive/fdf9655ba95616e0314b4e0ebab40bb0c5fe005c.zip",
-    ],
+    url = "https://github.com/bazelbuild/rules_rust/archive/fdf9655ba95616e0314b4e0ebab40bb0c5fe005c.zip",
+    sha256 = "83727c04706f441f8dfbfd262b0c69e19764a93ce9700167b1bdcf5831bf65e8",
 )
 http_archive(
     name = "bazel_skylib",

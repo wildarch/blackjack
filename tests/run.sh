@@ -1,9 +1,10 @@
 #!/bin/bash
+set -e
 
-yes | bazel run //:blackjack
+echo | bazel run //:blackjack
 bazel build //:all
 
 pushd tests/popular_crates
-yes | bazel run //:blackjack
+echo | bazel run //:blackjack
 bazel build //:crates
 popd
