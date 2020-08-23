@@ -11,6 +11,7 @@ def blackjack(name=None, manifest="Cargo.toml"):
           "@blackjack_crates_io_cargo_metadata//:cargo_metadata", 
           "@blackjack_crates_io_serde//:serde", 
           "@blackjack_crates_io_serde_json//:serde_json",
+          "@blackjack_crates_io_cargo_lock//:cargo_lock",
       ],
       edition = "2018",
       visibility = ["//visibility:public"],

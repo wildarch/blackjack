@@ -10,10 +10,7 @@ edition = "2018"
 cargo_metadata = "0.10"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-
-[package.metadata.blackjack.proc-macro2]
-rustc_flags = ["--cfg=use_proc_macro"]
+cargo-lock = "4.0"
 
 [package.metadata.blackjack]
 prefix = "blackjack_crates_io"
-
