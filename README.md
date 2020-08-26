@@ -106,4 +106,3 @@ Now instead of `@crates_io_serde//:serde`, use `blackjack_crates_io_serde//:serd
 
 # Things that don't work yet (but would gladly accept a PR for)
 * Support for Windows and Mac. For the moment everything assumes your host and target is `x86_64-unknown-linux-gnu`
-* Workspace support

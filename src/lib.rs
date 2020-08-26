@@ -1,7 +1,7 @@
 use cargo_lock::Lockfile;
 use cargo_metadata::{DependencyKind, Metadata, Node, NodeDep, Package, PackageId, Target};
 use serde::Deserialize;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::io::Write;
 
 #[derive(Debug, Deserialize, Default)]
@@ -22,12 +22,13 @@ struct CrateOpts {
 
 #[derive(Debug, Deserialize, Default)]
 struct BlackjackMetadata {
-    #[serde(default)]
-    prefix: String,
+    prefix: Option<String>,
 
     #[serde(flatten)]
     crate_opts: HashMap<String, CrateOpts>,
 }
+
+const DEFAULT_PREFIX: &'static str = "crates_io";
 
 fn default_crate_opts() -> Vec<(String, CrateOpts)> {
     vec![
@@ -79,12 +80,26 @@ impl BlackjackMetadata {
                 .expect("Failed to parse metadata")
                 .blackjack
         };
-        if blackjack_metadata.prefix == "" {
-            blackjack_metadata.prefix = "crates_io".to_string();
-        } else {
-            eprintln!("Prefix: {}", blackjack_metadata.prefix);
+        if let Some(p) = blackjack_metadata.prefix.as_ref() {
+            if p == "" {
+                blackjack_metadata.prefix = None;
+            }
         }
         blackjack_metadata
+    }
+
+    pub fn merge(mut self, other: BlackjackMetadata) -> Self {
+        self.prefix = match (self.prefix, other.prefix) {
+            (None, None) => None,
+            (Some(p), None) => Some(p),
+            (None, Some(p)) => Some(p),
+            (Some(a), Some(b)) => panic!(
+                "Cannot merge metadata, two different prefixes given ({} vs {})",
+                a, b
+            ),
+        };
+        self.crate_opts.extend(other.crate_opts);
+        self
     }
 }
 
@@ -92,8 +107,7 @@ pub struct Blackjack {
     metadata: Metadata,
     blackjack_metadata: BlackjackMetadata,
     packages: HashMap<PackageId, Package>,
-    root_id: PackageId,
-    root_dependencies: Vec<PackageId>,
+    direct_dependencies: HashSet<PackageId>,
     lockfile: Lockfile,
 }
 
@@ -111,9 +125,13 @@ impl Blackjack {
             .iter()
             .map(|p| (p.id.clone(), p.clone()))
             .collect();
-        let resolve = metadata.resolve.as_ref().unwrap();
-        let root_id = resolve.root.clone().unwrap();
-        let mut blackjack_metadata = BlackjackMetadata::new(packages.get(&root_id).unwrap());
+        // Combine all metadata from all packages in the workspace.
+        let mut blackjack_metadata = metadata
+            .workspace_members
+            .iter()
+            .map(|p| packages.get(p).unwrap())
+            .map(BlackjackMetadata::new)
+            .fold(BlackjackMetadata::default(), |a, b| a.merge(b));
         // Add in relevant default crate options
         for (crate_name, opts) in default_crate_opts() {
             // Only add the crate options if the crate appears in the dependency graph
@@ -125,22 +143,13 @@ impl Blackjack {
             }
         }
         eprintln!("{:#?}", blackjack_metadata);
-        let root_dependencies = resolve
-            .nodes
-            .iter()
-            .find(|n| &n.id == &root_id)
-            .unwrap()
-            .deps
-            .iter()
-            .map(|d| d.pkg.clone())
-            .collect();
+        let direct_dependencies = direct_dependencies(&metadata);
         Blackjack {
             metadata,
             packages,
             blackjack_metadata,
-            root_dependencies,
-            root_id,
             lockfile,
+            direct_dependencies,
         }
     }
 
@@ -160,14 +169,13 @@ def cargo_dependencies():
 
         for node in self.nodes() {
             let package = self.packages.get(&node.id).unwrap();
-            if self.root_id == node.id
-                // Skip packages not sourced from crates.io
-                || !package
-                    .source
-                    .as_ref()
-                    .map(|s| s.is_crates_io())
-                    .unwrap_or(false)
+            if !package
+                .source
+                .as_ref()
+                .map(|s| s.is_crates_io())
+                .unwrap_or(false)
             {
+                // Skip packages not sourced from crates.io
                 continue;
             }
             writeln!(output, "{}", self.render_archive(node, package))?;
@@ -193,17 +201,12 @@ def cargo_dependencies():
     }
 
     fn render_archive(&self, node: &Node, package: &Package) -> String {
-        let archive_name = if self.root_dependencies.contains(&node.id) {
-            format!(
-                "{prefix}_{name}",
-                prefix = self.blackjack_metadata.prefix,
-                name = sanitize_name(&package.name),
-            )
+        let archive_name = if self.direct_dependencies.contains(&node.id) {
+            self.prefixed_name(package)
         } else {
             format!(
-                "{prefix}_{name}_{version}",
-                prefix = self.blackjack_metadata.prefix,
-                name = sanitize_name(&package.name),
+                "{prefixed_name}_{version}",
+                prefixed_name = self.prefixed_name(package),
                 version = sanitize_version(&package.version.to_string()),
             )
         };
@@ -226,6 +229,19 @@ def cargo_dependencies():
         )
     }
 
+    fn prefixed_name(&self, package: &Package) -> String {
+        format!(
+            "{prefix}_{name}",
+            prefix = self
+                .blackjack_metadata
+                .prefix
+                .as_ref()
+                .map(String::as_str)
+                .unwrap_or(DEFAULT_PREFIX),
+            name = sanitize_name(&package.name)
+        )
+    }
+
     fn dep_label(&self, package: &Package) -> String {
         // Check if a replacement label has been configured
         if let Some(CrateOpts {
@@ -236,18 +252,18 @@ def cargo_dependencies():
             return label.clone();
         }
 
-        if self.root_dependencies.contains(&package.id) {
+        if self.direct_dependencies.contains(&package.id) {
             format!(
-                "@{prefix}_{name}//:{name}",
-                prefix = self.blackjack_metadata.prefix,
+                "@{prefixed_name}//:{name}",
+                prefixed_name = self.prefixed_name(package),
                 name = sanitize_name(&package.name)
             )
         } else {
             format!(
-                "@{prefix}_{name}_{version}//:{name}",
-                prefix = self.blackjack_metadata.prefix,
-                name = sanitize_name(&package.name),
+                "@{prefixed_name}_{version}//:{name}",
+                prefixed_name = self.prefixed_name(package),
                 version = sanitize_version(&package.version.to_string()),
+                name = sanitize_name(&package.name),
             )
         }
     }
@@ -375,4 +391,17 @@ fn library_target(package: &Package) -> &Target {
                 .any(|kind| kind == "lib" || kind == "proc-macro")
         })
         .expect("dependency provides not lib or proc-macro target")
+}
+
+fn direct_dependencies(metadata: &Metadata) -> HashSet<PackageId> {
+    let workspace_nodes = metadata
+        .resolve
+        .as_ref()
+        .unwrap()
+        .nodes
+        .iter()
+        .filter(|n| metadata.workspace_members.contains(&n.id));
+    workspace_nodes
+        .flat_map(|n| n.deps.iter().map(|d| d.pkg.clone()))
+        .collect()
 }
