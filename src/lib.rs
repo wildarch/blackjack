@@ -28,7 +28,7 @@ struct BlackjackMetadata {
     crate_opts: HashMap<String, CrateOpts>,
 }
 
-const DEFAULT_PREFIX: &'static str = "crates_io";
+const DEFAULT_PREFIX: &str = "crates_io";
 
 fn default_crate_opts() -> Vec<(String, CrateOpts)> {
     vec![
@@ -235,8 +235,7 @@ def cargo_dependencies():
             prefix = self
                 .blackjack_metadata
                 .prefix
-                .as_ref()
-                .map(String::as_str)
+                .as_deref()
                 .unwrap_or(DEFAULT_PREFIX),
             name = sanitize_name(&package.name)
         )
@@ -309,8 +308,7 @@ def cargo_dependencies():
             .unwrap_or_default();
         let build_script = if crate_opts.build_script {
             deps.push(":build_script".to_string());
-            format!(
-                r#"
+            r#"
 load("@io_bazel_rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 
 cargo_build_script(
@@ -318,9 +316,8 @@ cargo_build_script(
     srcs = ["build.rs"],
 )
                 "#
-            )
         } else {
-            "".to_string()
+            ""
         };
         format!(
             r#"

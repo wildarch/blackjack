@@ -4,13 +4,13 @@ use cargo_metadata::MetadataCommand;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
-const CARGO_TOML_RUNFILES_PATH: &'static str = "Cargo.toml";
-const CARGO_RUNFILES_PATH: &'static str = "external/blackjack_cargo/cargo";
+const CARGO_TOML_RUNFILES_PATH: &str = "Cargo.toml";
+const CARGO_RUNFILES_PATH: &str = "external/blackjack_cargo/cargo";
 
 fn workspace_path() -> PathBuf {
     // This is somewhat of an implementation detail
-    let mut cargo_toml_path =
-        std::fs::read_link(CARGO_TOML_RUNFILES_PATH).unwrap_or(PathBuf::from("Cargo.toml"));
+    let mut cargo_toml_path = std::fs::read_link(CARGO_TOML_RUNFILES_PATH)
+        .unwrap_or_else(|_| PathBuf::from("Cargo.toml"));
     cargo_toml_path.pop();
     cargo_toml_path
 }
