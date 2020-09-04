@@ -33,11 +33,7 @@ fn main() {
     let cargo_toml_path = workspace_path.join("Cargo.toml");
 
     let mut metadata = MetadataCommand::new();
-    metadata.manifest_path(&cargo_toml_path).other_options(vec![
-        // TODO make this configurable
-        "--filter-platform".to_string(),
-        "x86_64-unknown-linux-gnu".to_string(),
-    ]);
+    metadata.manifest_path(&cargo_toml_path);
     set_cargo_path(&mut metadata);
 
     eprintln!("Blackjack will run `cargo metadata`, which may update your `Cargo.lock` file if it is not up to date");

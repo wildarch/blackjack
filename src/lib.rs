@@ -1,5 +1,5 @@
 use cargo_lock::Lockfile;
-use cargo_metadata::{DependencyKind, Metadata, Node, NodeDep, Package, PackageId, Target};
+use cargo_metadata::{DependencyKind, Metadata, Node, Package, PackageId, Target};
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
 use std::io::Write;
@@ -187,13 +187,7 @@ def cargo_dependencies():
         self.metadata.resolve.as_ref().unwrap().nodes.iter()
     }
 
-    fn crate_type(&self, package_id: &PackageId) -> CrateType {
-        let package = self
-            .metadata
-            .packages
-            .iter()
-            .find(|p| &p.id == package_id)
-            .unwrap();
+    fn crate_type(&self, package: &Package) -> CrateType {
         match package.targets[0].crate_types[0].as_ref() {
             "proc-macro" => CrateType::ProcMacro,
             _ => CrateType::Lib,
@@ -267,39 +261,52 @@ def cargo_dependencies():
         }
     }
 
+    fn crate_deps(&self, node: &Node) -> CrateDependencies {
+        let mut crate_deps = CrateDependencies::default();
+        for dep in &node.deps {
+            let package = self.packages.get(&dep.pkg).unwrap();
+            let mut use_dep = false;
+            for dep_kind in &dep.dep_kinds {
+                match dep_kind.kind {
+                    DependencyKind::Build => {
+                        use_dep = true;
+                        crate_deps.build_deps.push(self.dep_label(&package));
+                    }
+                    DependencyKind::Normal => {
+                        use_dep = true;
+                        // TODO(wildarch): Make this cleaner
+                        let dep_label = self.dep_label(&package);
+                        if self.crate_type(&package) == CrateType::ProcMacro {
+                            crate_deps.proc_macro_deps.push(dep_label);
+                            continue;
+                        }
+                        if let Some(platform) = &dep_kind.target {
+                            crate_deps
+                                .platform_specific_deps
+                                .entry(platform.to_string())
+                                .or_insert_with(Vec::new)
+                                .push(dep_label);
+                        } else {
+                            crate_deps.deps.push(dep_label);
+                        }
+                    }
+                    _ => {}
+                };
+            }
+            if use_dep {
+                let dep_name = sanitize_name(&dep.name);
+                let package_name = sanitize_name(&package.name);
+                if dep_name != package_name {
+                    crate_deps.aliases.insert(self.dep_label(package), dep_name);
+                }
+            }
+        }
+        crate_deps
+    }
+
     fn render_build_file(&self, node: &Node, package: &Package) -> String {
         let target = library_target(package);
-        let all_deps: Vec<NodeDep> = node
-            .deps
-            .iter()
-            .filter(|d| d.dep_kinds.iter().any(|k| k.kind == DependencyKind::Normal))
-            .cloned()
-            .collect();
-
-        let aliases: HashMap<String, String> = all_deps
-            .iter()
-            .filter_map(|d| {
-                let dep_name = sanitize_name(&d.name);
-                let package = &self.packages.get(&d.pkg).unwrap();
-                let package_name = sanitize_name(&package.name);
-                if dep_name == package_name {
-                    None
-                } else {
-                    Some((self.dep_label(package), dep_name))
-                }
-            })
-            .collect();
-
-        let mut deps: Vec<String> = all_deps
-            .iter()
-            .filter(|d| self.crate_type(&d.pkg) == CrateType::Lib)
-            .map(|d| self.dep_label(self.packages.get(&d.pkg).unwrap()))
-            .collect();
-        let proc_macro_deps: Vec<String> = all_deps
-            .iter()
-            .filter(|d| self.crate_type(&d.pkg) == CrateType::ProcMacro)
-            .map(|d| self.dep_label(self.packages.get(&d.pkg).unwrap()))
-            .collect();
+        let mut crate_deps = self.crate_deps(node);
         let crate_opts = self
             .blackjack_metadata
             .crate_opts
@@ -307,17 +314,30 @@ def cargo_dependencies():
             .cloned()
             .unwrap_or_default();
         let build_script = if crate_opts.build_script {
-            deps.push(":build_script".to_string());
-            r#"
+            crate_deps.deps.push(":build_script".to_string());
+            format!(
+                r#"
 load("@io_bazel_rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 
 cargo_build_script(
     name = "build_script",
     srcs = ["build.rs"],
+    deps = {build_deps:?},
 )
-                "#
+                "#,
+                build_deps = crate_deps.build_deps
+            )
         } else {
-            ""
+            "".to_string()
+        };
+        let deps = if crate_deps.platform_specific_deps.is_empty() {
+            format!("{deps:?}", deps = crate_deps.deps)
+        } else {
+            format!(
+                "{deps:?} + select({platform_specific_deps:?})",
+                deps = crate_deps.deps,
+                platform_specific_deps = crate_deps.platform_specific_deps,
+            )
         };
         format!(
             r#"
@@ -328,7 +348,7 @@ rust_library(
     aliases = {aliases:?},
     srcs = glob(["**/*.rs"]),
     crate_type = "{crate_type}",
-    deps = {deps:?},
+    deps = {deps},
     proc_macro_deps = {proc_macro_deps:?},
     edition = "{edition}",
     crate_features = {crate_features:?},
@@ -338,10 +358,10 @@ rust_library(
     "#,
             build_script = build_script,
             name = sanitize_name(&package.name),
-            aliases = aliases,
+            aliases = crate_deps.aliases,
             crate_type = target.crate_types[0],
             deps = deps,
-            proc_macro_deps = proc_macro_deps,
+            proc_macro_deps = crate_deps.proc_macro_deps,
             edition = target.edition,
             crate_features = node.features,
             rustc_flags = crate_opts.rustc_flags,
@@ -361,6 +381,15 @@ rust_library(
             .expect("package in lockfile is missing a checksum")
             .to_string()
     }
+}
+
+#[derive(Default)]
+struct CrateDependencies {
+    deps: Vec<String>,
+    proc_macro_deps: Vec<String>,
+    build_deps: Vec<String>,
+    platform_specific_deps: HashMap<String, Vec<String>>,
+    aliases: HashMap<String, String>,
 }
 
 #[derive(PartialEq)]

@@ -1,0 +1,37 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "io_bazel_rules_rust",
+    sha256 = "83727c04706f441f8dfbfd262b0c69e19764a93ce9700167b1bdcf5831bf65e8",
+    strip_prefix = "rules_rust-fdf9655ba95616e0314b4e0ebab40bb0c5fe005c",
+    url = "https://github.com/bazelbuild/rules_rust/archive/fdf9655ba95616e0314b4e0ebab40bb0c5fe005c.zip",
+)
+http_archive(
+    name = "bazel_skylib",
+    sha256 = "605dde26ddac0f3439e74801ab79f9dbf1c6e3854d4c3cb2c0b9d73119c56a14",
+    strip_prefix = "bazel-skylib-2ec2e6d715e993d96ad6222770805b5bd25399ae",
+    url = "https://github.com/bazelbuild/bazel-skylib/archive/2ec2e6d715e993d96ad6222770805b5bd25399ae.zip",  # 2020-09-04
+)
+load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
+bazel_version(name = "bazel_version")
+load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
+rust_repositories()
+#load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repository_set")
+#rust_repository_set(
+#		name = "rust_linux_x86_64_with_windows_target",
+#		exec_triple = "x86_64-unknown-linux-gnu",
+#		extra_target_triples = ["x86_64-pc-windows-gnu"],
+#		version = "1.44.0",
+#		rustfmt_version = "1.4.8",
+#)
+
+local_repository(
+    name = "blackjack",
+    path = "../..",
+)
+
+load("@blackjack//:workspace.bzl", "blackjack_cargo")
+blackjack_cargo()
+
+load("//:cargo_dependencies.bzl", "cargo_dependencies")
+cargo_dependencies()
