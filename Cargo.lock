@@ -12,6 +12,7 @@ version = "0.1.0"
 dependencies = [
  "cargo-lock",
  "cargo_metadata",
+ "pico-args",
  "serde",
  "serde_json",
 ]
@@ -125,6 +126,12 @@ dependencies = [
  "fixedbitset",
  "indexmap",
 ]
+
+[[package]]
+name = "pico-args"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "28b9b4df73455c861d7cbf8be42f01d3b373ed7f02e378d55fa84eafc6f638b1"
 
 [[package]]
 name = "proc-macro2"

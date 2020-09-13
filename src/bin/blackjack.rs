@@ -1,11 +1,17 @@
 use blackjack::Blackjack;
 use cargo_lock::Lockfile;
 use cargo_metadata::MetadataCommand;
-use std::io::Write;
+use std::{io::Write, process::exit};
 use std::path::{Path, PathBuf};
 
 const CARGO_TOML_RUNFILES_PATH: &str = "Cargo.toml";
 const CARGO_RUNFILES_PATH: &str = "external/blackjack_cargo/cargo";
+
+struct Args {
+    help: bool,
+    target: String,
+    version: bool,
+}
 
 fn workspace_path() -> PathBuf {
     // This is somewhat of an implementation detail
@@ -29,6 +35,23 @@ fn set_cargo_path(metadata: &mut MetadataCommand) {
 }
 
 fn main() {
+    let mut pico = pico_args::Arguments::from_env();
+    let args = Args {
+        help: pico.contains(["-h", "--help"]),
+        target: pico.value_from_str(["-t", "--target"]).unwrap_or_else(|_| "x86_64-unknown-linux-gnu".to_string()),
+        version: pico.contains(["-V", "--version"]),
+    };
+    pico.finish().expect("unexpected CLI arguments");
+
+    // Version and help parsing.
+    if args.version {
+        println!("blackjack v{}", env!("CARGO_PKG_VERSION"));
+        exit(0);
+    } else if args.help {
+        println!("Usage: blackjack [--target=...]")
+    }
+
+
     let workspace_path = workspace_path();
     let cargo_toml_path = workspace_path.join("Cargo.toml");
 
@@ -36,7 +59,7 @@ fn main() {
     metadata.manifest_path(&cargo_toml_path).other_options(vec![
         // TODO make this configurable
         "--filter-platform".to_string(),
-        "x86_64-unknown-linux-gnu".to_string(),
+        args.target,
     ]);
     set_cargo_path(&mut metadata);
 

@@ -20,7 +20,7 @@ struct CrateOpts {
     replace: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Default)]
+#[derive(Debug, Deserialize)]
 struct BlackjackMetadata {
     prefix: Option<String>,
 
