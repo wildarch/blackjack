@@ -7,6 +7,11 @@ use std::path::{Path, PathBuf};
 const CARGO_TOML_RUNFILES_PATH: &str = "Cargo.toml";
 const CARGO_RUNFILES_PATH: &str = "external/blackjack_cargo/cargo";
 
+struct Args {
+    /// The Rust target triple used to generate the crate definitions.
+    target: String,
+}
+
 fn workspace_path() -> PathBuf {
     // This is somewhat of an implementation detail
     let mut cargo_toml_path = std::fs::read_link(CARGO_TOML_RUNFILES_PATH)
@@ -29,14 +34,19 @@ fn set_cargo_path(metadata: &mut MetadataCommand) {
 }
 
 fn main() {
+    let mut pico = pico_args::Arguments::from_env();
+    let args = Args {
+        target: pico.value_from_str(["-t", "--target"]).unwrap(),
+    };
+    pico.finish().expect("Unknown CLI arguments specified!");
+
     let workspace_path = workspace_path();
     let cargo_toml_path = workspace_path.join("Cargo.toml");
 
     let mut metadata = MetadataCommand::new();
     metadata.manifest_path(&cargo_toml_path).other_options(vec![
-        // TODO make this configurable
         "--filter-platform".to_string(),
-        "x86_64-unknown-linux-gnu".to_string(),
+        args.target,
     ]);
     set_cargo_path(&mut metadata);
 

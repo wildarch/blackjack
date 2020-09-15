@@ -48,7 +48,7 @@ load("@blackjack//:blackjack.bzl", "blackjack")
 blackjack(name = "blackjack")
 ```
 
-Now run `bazel run //:blackjack`. You'll find a newly created `cargo_dependencies.bzl` file next to your `Cargo.toml`.
+Now run `bazel run //:blackjack -- --target <triple>`. The `<triple>` argument value is a Rust target triple. You'll find a newly created `cargo_dependencies.bzl` file next to your `Cargo.toml`.
 
 **Note:** Blackjack pulls in its own `cargo` executable, so you do not need to have it installed.
 
@@ -103,6 +103,3 @@ prefix = "blackjack_crates_io"
 ```
 
 Now instead of `@crates_io_serde//:serde`, use `blackjack_crates_io_serde//:serde`.
-
-# Things that don't work yet (but would gladly accept a PR for)
-* Support for Windows and Mac. For the moment everything assumes your host and target is `x86_64-unknown-linux-gnu`

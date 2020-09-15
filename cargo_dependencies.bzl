@@ -334,6 +334,31 @@ rust_library(
     
 
     http_archive(
+        name = "blackjack_crates_io_pico_args",
+        url = "https://crates.io/api/v1/crates/pico-args/0.3.4/download",
+        sha256 = "28b9b4df73455c861d7cbf8be42f01d3b373ed7f02e378d55fa84eafc6f638b1",
+        strip_prefix = "pico-args-0.3.4",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "pico_args",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = ["default", "eq-separator"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
         name = "blackjack_crates_io_proc_macro2_1.0.18",
         url = "https://crates.io/api/v1/crates/proc-macro2/1.0.18/download",
         sha256 = "beae6331a816b1f65d04c45b078fd8e6c93e8071771f41b8163255bbd8d7c8fa",
