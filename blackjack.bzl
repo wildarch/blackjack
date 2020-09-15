@@ -9,8 +9,9 @@ def blackjack(name=None, manifest="Cargo.toml"):
       srcs = ["@blackjack//:src/bin/blackjack.rs"],
       aliases = {"@blackjack//:blackjack_lib": "blackjack"},
       deps = [
-          "@blackjack_crates_io_cargo_metadata//:cargo_metadata", 
-          "@blackjack_crates_io_cargo_lock//:cargo_lock", 
+          "@blackjack_crates_io_cargo_lock//:cargo_lock",
+          "@blackjack_crates_io_cargo_metadata//:cargo_metadata",
+          "@blackjack_crates_io_pico_args//:pico_args", 
           "@blackjack//:blackjack_lib",
       ],
       edition = "2018",
