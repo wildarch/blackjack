@@ -1,6 +1,6 @@
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_binary")
 
-def blackjack(name=None, manifest="Cargo.toml"):
+def blackjack(name=None, manifest="//:Cargo.toml"):
   if not name:
     fail(msg="'name' must be set when calling blackjack(..)")
 
@@ -8,6 +8,10 @@ def blackjack(name=None, manifest="Cargo.toml"):
       name = name,
       srcs = ["@blackjack//:src/bin/blackjack.rs"],
       aliases = {"@blackjack//:blackjack_lib": "blackjack"},
+      args = [
+          "$(location @blackjack_cargo//:blackjack_cargo.exe)",
+          "$(location %s) " % manifest,
+      ],
       deps = [
           "@blackjack_crates_io_cargo_metadata//:cargo_metadata", 
           "@blackjack_crates_io_cargo_lock//:cargo_lock", 
@@ -16,7 +20,7 @@ def blackjack(name=None, manifest="Cargo.toml"):
       edition = "2018",
       visibility = ["//visibility:public"],
       data = [
-        "@blackjack_cargo//:cargo",
+        "@blackjack_cargo//:blackjack_cargo.exe",
         manifest,
       ],
   )
