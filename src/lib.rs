@@ -29,6 +29,14 @@ struct BlackjackMetadata {
 }
 
 const DEFAULT_PREFIX: &str = "crates_io";
+const SUPPORTED_TARGETS: &[&str] = &[
+    "i686-apple-darwin",
+    "i686-pc-windows-msvc",
+    "i686-unknown-linux-gnu",
+    "x86_64-apple-darwin",
+    "x86_64-pc-windows-msvc",
+    "x86_64-unknown-linux-gnu",
+];
 
 fn default_crate_opts() -> Vec<(String, CrateOpts)> {
     vec![
@@ -280,12 +288,39 @@ def cargo_dependencies():
                             crate_deps.proc_macro_deps.push(dep_label);
                             continue;
                         }
-                        if let Some(platform) = &dep_kind.target {
-                            crate_deps
-                                .platform_specific_deps
-                                .entry(platform.to_string())
-                                .or_insert_with(Vec::new)
-                                .push(dep_label);
+                        if let Some(target_expr) = &dep_kind.target {
+                            if let Some(_) = cfg_expr::targets::get_builtin_target_by_triple(
+                                &target_expr.to_string(),
+                            ) {
+                                crate_deps
+                                    .platform_specific_deps
+                                    .entry(target_expr.to_string())
+                                    .or_insert_with(Vec::new)
+                                    .push(dep_label);
+                            } else {
+                                let target_expr =
+                                    cfg_expr::Expression::parse(&target_expr.to_string())
+                                        .expect("Failed to parse target");
+                                for target in SUPPORTED_TARGETS {
+                                    let target =
+                                        cfg_expr::targets::get_builtin_target_by_triple(target)
+                                            .unwrap();
+                                    let uses_dep = target_expr.eval(|pred| match pred {
+                                        cfg_expr::Predicate::Target(tp) => tp.matches(target),
+                                        _ => false,
+                                    });
+                                    if uses_dep {
+                                        crate_deps
+                                            .platform_specific_deps
+                                            .entry(format!(
+                                                "@io_bazel_rules_rust//rust/platform:{}",
+                                                target.triple
+                                            ))
+                                            .or_insert_with(Vec::new)
+                                            .push(dep_label.clone());
+                                    }
+                                }
+                            }
                         } else {
                             crate_deps.deps.push(dep_label);
                         }
@@ -300,6 +335,12 @@ def cargo_dependencies():
                     crate_deps.aliases.insert(self.dep_label(package), dep_name);
                 }
             }
+        }
+        if !crate_deps.platform_specific_deps.is_empty() {
+            // If there are any platform specific deps, add the default empty condition
+            crate_deps
+                .platform_specific_deps
+                .insert("//conditions:default".to_string(), Vec::new());
         }
         crate_deps
     }

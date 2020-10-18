@@ -12,6 +12,7 @@ version = "0.1.0"
 dependencies = [
  "cargo-lock",
  "cargo_metadata",
+ "cfg-expr",
  "serde",
  "serde_json",
 ]
@@ -40,6 +41,15 @@ dependencies = [
  "serde",
  "serde_derive",
  "serde_json",
+]
+
+[[package]]
+name = "cfg-expr"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6c2be76f06820200669a77ae59a8328c6b8fe4496e8fb7fed02f2806a442c5ff"
+dependencies = [
+ "smallvec",
 ]
 
 [[package]]
@@ -196,6 +206,12 @@ dependencies = [
  "ryu",
  "serde",
 ]
+
+[[package]]
+name = "smallvec"
+version = "1.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fbee7696b84bbf3d89a1c2eccff0850e3047ed46bfcd2e92c29a2d074d57e252"
 
 [[package]]
 name = "syn"

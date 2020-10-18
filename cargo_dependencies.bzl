@@ -84,6 +84,31 @@ rust_library(
     
 
     http_archive(
+        name = "blackjack_crates_io_cfg_expr",
+        url = "https://crates.io/api/v1/crates/cfg-expr/0.4.1/download",
+        sha256 = "6c2be76f06820200669a77ae59a8328c6b8fe4496e8fb7fed02f2806a442c5ff",
+        strip_prefix = "cfg-expr-0.4.1",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "cfg_expr",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@blackjack_crates_io_smallvec_1.4.2//:smallvec"],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = ["default"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
         name = "blackjack_crates_io_fixedbitset_0.2.0",
         url = "https://crates.io/api/v1/crates/fixedbitset/0.2.0/download",
         sha256 = "37ab347416e802de484e4d03c7316c48f1ecb56574dfd4a46a80f173ce1de04d",
@@ -526,6 +551,31 @@ rust_library(
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["default", "std"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "blackjack_crates_io_smallvec_1.4.2",
+        url = "https://crates.io/api/v1/crates/smallvec/1.4.2/download",
+        sha256 = "fbee7696b84bbf3d89a1c2eccff0850e3047ed46bfcd2e92c29a2d074d57e252",
+        strip_prefix = "smallvec-1.4.2",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "smallvec",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )

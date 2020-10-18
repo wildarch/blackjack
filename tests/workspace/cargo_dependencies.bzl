@@ -72,7 +72,7 @@ rust_library(
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_libc_0.2.76//:libc"],
+    deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"] + select({"@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"], "@io_bazel_rules_rust//rust/platform:i686-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"], "@io_bazel_rules_rust//rust/platform:i686-apple-darwin": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["std"],
@@ -147,7 +147,7 @@ rust_library(
     aliases = {"@crates_io_getrandom_0.1.14//:getrandom": "getrandom_package"},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@crates_io_getrandom_0.1.14//:getrandom", "@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha", "@crates_io_rand_core_0.5.1//:rand_core"],
+    deps = ["@crates_io_getrandom_0.1.14//:getrandom", "@crates_io_rand_core_0.5.1//:rand_core"] + select({"@io_bazel_rules_rust//rust/platform:i686-pc-windows-msvc": ["@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:x86_64-pc-windows-msvc": ["@crates_io_rand_chacha_0.2.2//:rand_chacha"], "//conditions:default": [], "@io_bazel_rules_rust//rust/platform:i686-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:i686-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"]}),
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["alloc", "default", "getrandom", "getrandom_package", "libc", "std"],
@@ -201,6 +201,56 @@ rust_library(
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["alloc", "getrandom", "std"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_rand_hc_0.2.0",
+        url = "https://crates.io/api/v1/crates/rand_hc/0.2.0/download",
+        sha256 = "ca3129af7b92a17112d59ad498c6f81eaf463253766b90396d39ea7a39d6613c",
+        strip_prefix = "rand_hc-0.2.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "rand_hc",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@crates_io_rand_core_0.5.1//:rand_core"],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_wasi_0.9.0--PLUS--wasi-snapshot-preview1",
+        url = "https://crates.io/api/v1/crates/wasi/0.9.0+wasi-snapshot-preview1/download",
+        sha256 = "cccddf32554fecc6acb585f82a32a72e28b48f8c4c1883ddfeeeaa96f7d8e519",
+        strip_prefix = "wasi-0.9.0+wasi-snapshot-preview1",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "wasi",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = ["default", "std"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
