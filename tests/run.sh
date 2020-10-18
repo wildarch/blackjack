@@ -19,3 +19,8 @@ echo | bazel run //:blackjack
 bazel run //crate1
 bazel run //crate2
 popd
+
+pushd tests/platform_specific
+echo | bazel run //:blackjack
+bazel run //:main
+popd

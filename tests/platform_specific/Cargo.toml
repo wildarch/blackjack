@@ -5,7 +5,8 @@ authors = ["Daan de Graaf <daandegraaf9@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-time = "0.2"
+os_info = "3.0"
+battery = "0.7"
 
 [package.metadata.blackjack.time]
 rustc_flags = [
@@ -35,3 +36,6 @@ rustc_flags = [
   "--cfg=__standback_before_1_45",
   "--cfg=__standback_before_1_46",
 ]
+
+[package.metadata.blackjack.stdweb-internal-runtime]
+build_script = true

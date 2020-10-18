@@ -9,19 +9,69 @@ def cargo_dependencies():
 
 
     http_archive(
-        name = "crates_io_const_fn_0.4.2",
-        url = "https://crates.io/api/v1/crates/const_fn/0.4.2/download",
-        sha256 = "ce90df4c658c62f12d78f7508cf92f9173e5184a539c10bfe54a3107b3ffd0f2",
-        strip_prefix = "const_fn-0.4.2",
+        name = "crates_io_autocfg_1.0.1",
+        url = "https://crates.io/api/v1/crates/autocfg/1.0.1/download",
+        sha256 = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a",
+        strip_prefix = "autocfg-1.0.1",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "const_fn",
+    name = "autocfg",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_battery",
+        url = "https://crates.io/api/v1/crates/battery/0.7.7/download",
+        sha256 = "e3ba81abd3ec70c6ef1d7a85c85cfcbab52b6b9536ea97e5ab7948d971603d2b",
+        strip_prefix = "battery-0.7.7",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "battery",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@crates_io_cfg_if_1.0.0//:cfg_if", "@crates_io_num_traits_0.2.12//:num_traits", "@crates_io_uom_0.30.0//:uom"] + select({"@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_lazycell_1.3.0//:lazycell"], "//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_core_foundation_0.7.0//:core_foundation", "@crates_io_libc_0.2.79//:libc", "@crates_io_mach_0.3.2//:mach"], "@io_bazel_rules_rust//rust/platform:x86_64-pc-windows-msvc": ["@crates_io_winapi_0.3.9//:winapi"]}),
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_cfg_if_0.1.10",
+        url = "https://crates.io/api/v1/crates/cfg-if/0.1.10/download",
+        sha256 = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822",
+        strip_prefix = "cfg-if-0.1.10",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "cfg_if",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -34,10 +84,110 @@ rust_library(
     
 
     http_archive(
-        name = "crates_io_libc_0.2.76",
-        url = "https://crates.io/api/v1/crates/libc/0.2.76/download",
-        sha256 = "755456fae044e6fa1ebbbd1b3e902ae19e73097ed4ed87bb79934a867c007bc3",
-        strip_prefix = "libc-0.2.76",
+        name = "crates_io_cfg_if_1.0.0",
+        url = "https://crates.io/api/v1/crates/cfg-if/1.0.0/download",
+        sha256 = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd",
+        strip_prefix = "cfg-if-1.0.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "cfg_if",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_core_foundation_0.7.0",
+        url = "https://crates.io/api/v1/crates/core-foundation/0.7.0/download",
+        sha256 = "57d24c7a13c43e870e37c1556b74555437870a04514f7685f5b354e090567171",
+        strip_prefix = "core-foundation-0.7.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "core_foundation",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@crates_io_core_foundation_sys_0.7.0//:core_foundation_sys", "@crates_io_libc_0.2.79//:libc"],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_core_foundation_sys_0.7.0",
+        url = "https://crates.io/api/v1/crates/core-foundation-sys/0.7.0/download",
+        sha256 = "b3a71ab494c0b5b860bdc8407ae08978052417070c2ced38573a9157ad75b8ac",
+        strip_prefix = "core-foundation-sys-0.7.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "core_foundation_sys",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_lazycell_1.3.0",
+        url = "https://crates.io/api/v1/crates/lazycell/1.3.0/download",
+        sha256 = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55",
+        strip_prefix = "lazycell-1.3.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "lazycell",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_libc_0.2.79",
+        url = "https://crates.io/api/v1/crates/libc/0.2.79/download",
+        sha256 = "2448f6066e80e3bfc792e9c98bf705b4b0fc6e8ef5b43e5889aff0eaa9c58743",
+        strip_prefix = "libc-0.2.79",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
@@ -59,23 +209,98 @@ rust_library(
     
 
     http_archive(
-        name = "crates_io_proc_macro_hack_0.5.18",
-        url = "https://crates.io/api/v1/crates/proc-macro-hack/0.5.18/download",
-        sha256 = "99c605b9a0adc77b7211c6b1f722dcb613d68d66859a44f3d485a6da332b0598",
-        strip_prefix = "proc-macro-hack-0.5.18",
+        name = "crates_io_log_0.4.11",
+        url = "https://crates.io/api/v1/crates/log/0.4.11/download",
+        sha256 = "4fabed175da42fed1fa0746b0ea71f412aa9d35e76e95e59b192c64b9dc2bf8b",
+        strip_prefix = "log-0.4.11",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "proc_macro_hack",
+    name = "log",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
+    crate_type = "lib",
+    deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_mach_0.3.2",
+        url = "https://crates.io/api/v1/crates/mach/0.3.2/download",
+        sha256 = "b823e83b2affd8f40a9ee8c29dbc56404c1e34cd2710921f2801e2cf29527afa",
+        strip_prefix = "mach-0.3.2",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "mach",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [] + select({"@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.79//:libc"], "//conditions:default": []}),
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = ["default"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_num_traits_0.2.12",
+        url = "https://crates.io/api/v1/crates/num-traits/0.2.12/download",
+        sha256 = "ac267bcc07f48ee5f8935ab0d24f316fb722d7a1292e2913f0cc196b29ffd611",
+        strip_prefix = "num-traits-0.2.12",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "num_traits",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
+    edition = "2015",
+    crate_features = ["std"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_os_info",
+        url = "https://crates.io/api/v1/crates/os_info/3.0.0/download",
+        sha256 = "09300db72fca7d425d1f51b76b881fdcc63241fdc952b5cd013f8a6f8c01e6d5",
+        strip_prefix = "os_info-3.0.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "os_info",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@crates_io_log_0.4.11//:log", "@crates_io_serde_1.0.115//:serde"] + select({"@io_bazel_rules_rust//rust/platform:x86_64-pc-windows-msvc": ["@crates_io_winapi_0.3.9//:winapi"], "//conditions:default": []}),
+    proc_macro_deps = [],
     edition = "2018",
-    crate_features = [],
+    crate_features = ["default", "serde"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -134,24 +359,49 @@ rust_library(
     
 
     http_archive(
-        name = "crates_io_standback_0.2.10",
-        url = "https://crates.io/api/v1/crates/standback/0.2.10/download",
-        sha256 = "33a71ea1ea5f8747d1af1979bfb7e65c3a025a70609f04ceb78425bc5adad8e6",
-        strip_prefix = "standback-0.2.10",
+        name = "crates_io_serde_1.0.115",
+        url = "https://crates.io/api/v1/crates/serde/1.0.115/download",
+        sha256 = "e54c9a88f2da7238af84b5101443f0c0d0a3bbdc455e34a5c9497b1903ed55d5",
+        strip_prefix = "serde-1.0.115",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "standback",
+    name = "serde",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
     deps = [],
+    proc_macro_deps = ["@crates_io_serde_derive_1.0.115//:serde_derive"],
+    edition = "2015",
+    crate_features = ["default", "derive", "serde_derive", "std"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_serde_derive_1.0.115",
+        url = "https://crates.io/api/v1/crates/serde_derive/1.0.115/download",
+        sha256 = "609feed1d0a73cc36a0182a840a9b37b4a82f0b1150369f0536a9e3f2a31dc48",
+        strip_prefix = "serde_derive-1.0.115",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "serde_derive",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "proc-macro",
+    deps = ["@crates_io_proc_macro2_1.0.20//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
-    edition = "2018",
-    crate_features = ["std"],
-    rustc_flags = ["--cap-lints=allow"] + ["--cfg=__standback_since_1_31", "--cfg=__standback_since_1_32", "--cfg=__standback_since_1_33", "--cfg=__standback_since_1_34", "--cfg=__standback_since_1_35", "--cfg=__standback_since_1_36", "--cfg=__standback_since_1_37", "--cfg=__standback_since_1_38", "--cfg=__standback_since_1_39", "--cfg=__standback_since_1_40", "--cfg=__standback_since_1_41", "--cfg=__standback_since_1_42", "--cfg=__standback_since_1_43", "--cfg=__standback_since_1_44", "--cfg=__standback_before_1_45", "--cfg=__standback_before_1_46"],
+    edition = "2015",
+    crate_features = ["default"],
+    rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
     """,
@@ -175,7 +425,7 @@ rust_library(
     deps = ["@crates_io_proc_macro2_1.0.20//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_unicode_xid_0.2.1//:unicode_xid"],
     proc_macro_deps = [],
     edition = "2018",
-    crate_features = ["clone-impls", "default", "derive", "full", "parsing", "printing", "proc-macro", "quote", "visit"],
+    crate_features = ["clone-impls", "default", "derive", "parsing", "printing", "proc-macro", "quote", "visit"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -184,72 +434,30 @@ rust_library(
     
 
     http_archive(
-        name = "crates_io_time",
-        url = "https://crates.io/api/v1/crates/time/0.2.17/download",
-        sha256 = "ca7ec98a72285d12e0febb26f0847b12d54be24577618719df654c66cadab55d",
-        strip_prefix = "time-0.2.17",
+        name = "crates_io_typenum_1.12.0",
+        url = "https://crates.io/api/v1/crates/typenum/1.12.0/download",
+        sha256 = "373c8a200f9e67a0c95e62a4f52fbf80c23b4381c05a17845531982fa99e6b33",
+        strip_prefix = "typenum-1.12.0",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
-rust_library(
-    name = "time",
-    aliases = {},
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = ["@crates_io_libc_0.2.76//:libc", "@crates_io_standback_0.2.10//:standback", "@crates_io_time_macros_0.1.0//:time_macros"],
-    proc_macro_deps = ["@crates_io_const_fn_0.4.2//:const_fn"],
-    edition = "2018",
-    crate_features = ["default", "deprecated", "libc", "std", "stdweb", "winapi"],
-    rustc_flags = ["--cap-lints=allow"] + ["--cfg=__time_02_supports_non_exhaustive", "--cfg=__time_02_instant_checked_ops", "--cfg=__time_02_nonzero_signed", "--cfg=__time_02_use_trait_as_underscore", "--cfg=__time_02_cargo_web"],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
+load("@io_bazel_rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 
-    http_archive(
-        name = "crates_io_time_macros_0.1.0",
-        url = "https://crates.io/api/v1/crates/time-macros/0.1.0/download",
-        sha256 = "9ae9b6e9f095bc105e183e3cd493d72579be3181ad4004fceb01adbe9eecab2d",
-        strip_prefix = "time-macros-0.1.0",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "time_macros",
-    aliases = {},
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
+cargo_build_script(
+    name = "build_script",
+    srcs = glob(["build.rs", "build/*.rs"]),
     deps = [],
-    proc_macro_deps = ["@crates_io_proc_macro_hack_0.5.18//:proc_macro_hack", "@crates_io_time_macros_impl_0.1.1//:time_macros_impl"],
-    edition = "2018",
-    crate_features = [],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
 )
-    """,
-    )
-    
-
-    http_archive(
-        name = "crates_io_time_macros_impl_0.1.1",
-        url = "https://crates.io/api/v1/crates/time-macros-impl/0.1.1/download",
-        sha256 = "e5c3be1edfad6027c69f5491cf4cb310d1a71ecd6af742788c6ff8bced86b8fa",
-        strip_prefix = "time-macros-impl-0.1.1",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
+                
 rust_library(
-    name = "time_macros_impl",
+    name = "typenum",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
-    deps = ["@crates_io_proc_macro2_1.0.20//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_standback_0.2.10//:standback", "@crates_io_syn_1.0.39//:syn"],
-    proc_macro_deps = ["@crates_io_proc_macro_hack_0.5.18//:proc_macro_hack"],
-    edition = "2018",
+    crate_type = "lib",
+    deps = [":build_script"],
+    proc_macro_deps = [],
+    edition = "2015",
     crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
@@ -284,16 +492,91 @@ rust_library(
     
 
     http_archive(
-        name = "crates_io_version_check_0.9.2",
-        url = "https://crates.io/api/v1/crates/version_check/0.9.2/download",
-        sha256 = "b5a972e5669d67ba988ce3dc826706fb0a8b01471c088cb0b6110b805cc36aed",
-        strip_prefix = "version_check-0.9.2",
+        name = "crates_io_uom_0.30.0",
+        url = "https://crates.io/api/v1/crates/uom/0.30.0/download",
+        sha256 = "e76503e636584f1e10b9b3b9498538279561adcef5412927ba00c2b32c4ce5ed",
+        strip_prefix = "uom-0.30.0",
         type = "tar.gz",
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "version_check",
+    name = "uom",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@crates_io_num_traits_0.2.12//:num_traits", "@crates_io_typenum_1.12.0//:typenum"],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = ["autoconvert", "default", "f32", "f64", "si", "std"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_winapi_0.3.9",
+        url = "https://crates.io/api/v1/crates/winapi/0.3.9/download",
+        sha256 = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419",
+        strip_prefix = "winapi-0.3.9",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "winapi",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:i686-pc-windows-gnu": ["@crates_io_winapi_i686_pc_windows_gnu_0.4.0//:winapi_i686_pc_windows_gnu"], "@io_bazel_rules_rust//rust/platform:x86_64-pc-windows-gnu": ["@crates_io_winapi_x86_64_pc_windows_gnu_0.4.0//:winapi_x86_64_pc_windows_gnu"]}),
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = ["devguid", "errhandlingapi", "handleapi", "impl-default", "ioapiset", "libloaderapi", "minwindef", "ntdef", "ntstatus", "processthreadsapi", "setupapi", "sysinfoapi", "winbase", "winerror", "winnt", "winuser"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_winapi_i686_pc_windows_gnu_0.4.0",
+        url = "https://crates.io/api/v1/crates/winapi-i686-pc-windows-gnu/0.4.0/download",
+        sha256 = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6",
+        strip_prefix = "winapi-i686-pc-windows-gnu-0.4.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "winapi_i686_pc_windows_gnu",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_winapi_x86_64_pc_windows_gnu_0.4.0",
+        url = "https://crates.io/api/v1/crates/winapi-x86_64-pc-windows-gnu/0.4.0/download",
+        sha256 = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f",
+        strip_prefix = "winapi-x86_64-pc-windows-gnu-0.4.0",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "winapi_x86_64_pc_windows_gnu",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
