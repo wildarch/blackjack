@@ -1,25 +1,27 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Keep running for other platforms when one fails
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+        - os: ubuntu-latest
+          PLATFORM: linux
+        - os: macos-latest
+          PLATFORM: darwin
+        - os: windows-latest
+          PLATFORM: windows
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
     - name: Mount bazel cache
@@ -28,18 +30,17 @@ jobs:
         path: "/home/runner/.cache/bazel"
         key: bazel
 
-    # Runs a single command using the runners shell
     - name: Setup bazel
+      shell: bash
       run: |
         mkdir bin
         cd bin
-        wget https://github.com/bazelbuild/bazelisk/releases/download/v1.6.1/bazelisk-linux-amd64
-        chmod +x bazelisk-linux-amd64
-        mv bazelisk-linux-amd64 bazel
+        curl -L https://github.com/bazelbuild/bazelisk/releases/download/v1.6.1/bazelisk-${{matrix.PLATFORM}}-amd64 -o bazel
+        chmod +x bazel 
         export PATH="$(readlink -e .):$PATH"
 
-    # Runs a set of commands using the runners shell
     - name: Run tests
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE
         ./tests/run.sh
