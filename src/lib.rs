@@ -286,11 +286,13 @@ def cargo_dependencies():
         if let Some(target_expr) = target {
             if let Some(_) = get_builtin_target_by_triple(&target_expr.to_string()) {
                 // The target expr is a target triple
-                dep_set
-                    .platform_specific_deps
-                    .entry(triple_to_condition(target_expr))
-                    .or_insert_with(Vec::new)
-                    .push(dep_label);
+                if SUPPORTED_TARGETS.contains(&target_expr.to_string().as_str()) {
+                    dep_set
+                        .platform_specific_deps
+                        .entry(triple_to_condition(target_expr))
+                        .or_insert_with(Vec::new)
+                        .push(dep_label);
+                }
             } else {
                 // The target triple is a more complex cfg(..) expression
                 let target_expr = cfg_expr::Expression::parse(&target_expr.to_string())

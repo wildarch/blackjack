@@ -3755,7 +3755,7 @@ rust_library(
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = [] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:i686-pc-windows-gnu": ["@crates_io_winapi_i686_pc_windows_gnu_0.4.0//:winapi_i686_pc_windows_gnu"], "@io_bazel_rules_rust//rust/platform:x86_64-pc-windows-gnu": ["@crates_io_winapi_x86_64_pc_windows_gnu_0.4.0//:winapi_x86_64_pc_windows_gnu"]}),
+    deps = [],
     proc_macro_deps = [],
     edition = "2015",
     crate_features = ["consoleapi", "errhandlingapi", "handleapi", "impl-debug", "impl-default", "minwinbase", "minwindef", "ntdef", "ntstatus", "profileapi", "std", "sysinfoapi", "timezoneapi", "winbase", "winerror", "winnt", "winreg", "winsock2", "ws2def", "ws2ipdef", "ws2tcpip"],
