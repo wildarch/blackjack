@@ -147,7 +147,7 @@ rust_library(
     aliases = {"@crates_io_getrandom_0.1.14//:getrandom": "getrandom_package"},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@crates_io_getrandom_0.1.14//:getrandom", "@crates_io_rand_core_0.5.1//:rand_core"] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:x86_64-pc-windows-msvc": ["@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"]}),
+    deps = ["@crates_io_getrandom_0.1.14//:getrandom", "@crates_io_rand_core_0.5.1//:rand_core"] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"]}),
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["alloc", "default", "getrandom", "getrandom_package", "libc", "std"],
