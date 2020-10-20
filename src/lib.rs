@@ -2,7 +2,7 @@ use cargo_lock::Lockfile;
 use cargo_metadata::{DependencyKind, Metadata, Node, Package, PackageId, Target};
 use cfg_expr::targets::get_builtin_target_by_triple;
 use serde::Deserialize;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
 use std::io::Write;
 
@@ -440,7 +440,7 @@ rust_library(
 /// All dependencies of a crate
 #[derive(Default)]
 struct CrateDependencies {
-    aliases: HashMap<String, String>,
+    aliases: BTreeMap<String, String>,
     normal_deps: DependencySet,
     proc_macro_deps: DependencySet,
     build_deps: DependencySet,
@@ -451,7 +451,7 @@ struct CrateDependencies {
 #[derive(Default)]
 struct DependencySet {
     common_deps: Vec<String>,
-    platform_specific_deps: HashMap<String, Vec<String>>,
+    platform_specific_deps: BTreeMap<String, Vec<String>>,
 }
 
 // Renders the dependencies as a valid bazel dependency set
