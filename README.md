@@ -105,5 +105,4 @@ prefix = "blackjack_crates_io"
 Now instead of `@crates_io_serde//:serde`, use `blackjack_crates_io_serde//:serde`.
 
 # Things that don't work yet (but would gladly accept a PR for)
-* Support for Windows and Mac. For the moment everything assumes your host and target is `x86_64-unknown-linux-gnu`
-* Dependencies for build scripts.
+* Support for Windows. All that is really needed here is to add it to the list of supported platforms, and fix the platform specific workspace test.
