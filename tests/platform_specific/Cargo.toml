@@ -5,37 +5,4 @@ authors = ["Daan de Graaf <daandegraaf9@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-os_info = "3.0"
 battery = "0.7"
-
-[package.metadata.blackjack.time]
-rustc_flags = [
-  "--cfg=__time_02_supports_non_exhaustive",
-  "--cfg=__time_02_instant_checked_ops",
-  "--cfg=__time_02_nonzero_signed",
-  "--cfg=__time_02_use_trait_as_underscore",
-  "--cfg=__time_02_cargo_web",
-]
-
-[package.metadata.blackjack.standback]
-rustc_flags = [
-  "--cfg=__standback_since_1_31",
-  "--cfg=__standback_since_1_32",
-  "--cfg=__standback_since_1_33",
-  "--cfg=__standback_since_1_34",
-  "--cfg=__standback_since_1_35",
-  "--cfg=__standback_since_1_36",
-  "--cfg=__standback_since_1_37",
-  "--cfg=__standback_since_1_38",
-  "--cfg=__standback_since_1_39",
-  "--cfg=__standback_since_1_40",
-  "--cfg=__standback_since_1_41",
-  "--cfg=__standback_since_1_42",
-  "--cfg=__standback_since_1_43",
-  "--cfg=__standback_since_1_44",
-  "--cfg=__standback_before_1_45",
-  "--cfg=__standback_before_1_46",
-]
-
-[package.metadata.blackjack.stdweb-internal-runtime]
-build_script = true
