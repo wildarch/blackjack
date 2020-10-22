@@ -6,3 +6,6 @@ edition = "2018"
 
 [dependencies]
 battery = "0.7"
+
+[package.metadata.blackjack.winapi]
+build_script = true
