@@ -9,6 +9,31 @@ def cargo_dependencies():
 
 
     http_archive(
+        name = "crates_io_adler_0.2.3",
+        url = "https://crates.io/api/v1/crates/adler/0.2.3/download",
+        sha256 = "ee2a4ec343196209d6594e19543ae87a39f96d5534d7174822a3ad825dd6ed7e",
+        strip_prefix = "adler-0.2.3",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "adler",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
         name = "crates_io_cc_1.0.59",
         url = "https://crates.io/api/v1/crates/cc/1.0.59/download",
         sha256 = "66120af515773fb005778dc07c261bd201ec8ce50bd6e7144c927753fe013381",
@@ -159,6 +184,31 @@ rust_library(
     
 
     http_archive(
+        name = "crates_io_miniz_oxide_0.4.1",
+        url = "https://crates.io/api/v1/crates/miniz_oxide/0.4.1/download",
+        sha256 = "4d7559a8a40d0f97e1edea3220f698f78b1c5ab67532e49f68fde3910323b722",
+        strip_prefix = "miniz_oxide-0.4.1",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "miniz_oxide",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = ["@crates_io_adler_0.2.3//:adler"],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
         name = "crates_io_pkg_config_0.3.18",
         url = "https://crates.io/api/v1/crates/pkg-config/0.3.18/download",
         sha256 = "d36492546b6af1463394d46f0c834346f31548646f6ba10849802c9c9a27ac33",
@@ -169,6 +219,31 @@ load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "pkg_config",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2015",
+    crate_features = [],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
+        name = "crates_io_vcpkg_0.2.10",
+        url = "https://crates.io/api/v1/crates/vcpkg/0.2.10/download",
+        sha256 = "6454029bf181f092ad1b853286f23e2c507d8e8194d01d92da4a55c274a5508c",
+        strip_prefix = "vcpkg-0.2.10",
+        type = "tar.gz",
+        build_file_content = """
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "vcpkg",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",

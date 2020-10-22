@@ -8,9 +8,9 @@ http_archive(
 )
 http_archive(
     name = "bazel_skylib",
-    sha256 = "12ee3a5732e8c353fce4a710dbe045a16a161c49c79622faa1f2813f668bb442",
-    strip_prefix = "bazel-skylib-8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0",
-    url = "https://github.com/bazelbuild/bazel-skylib/archive/8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0.tar.gz",  # 2020-07-10
+    sha256 = "605dde26ddac0f3439e74801ab79f9dbf1c6e3854d4c3cb2c0b9d73119c56a14",
+    strip_prefix = "bazel-skylib-2ec2e6d715e993d96ad6222770805b5bd25399ae",
+    url = "https://github.com/bazelbuild/bazel-skylib/archive/2ec2e6d715e993d96ad6222770805b5bd25399ae.zip",  # 2020-09-04
 )
 load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
 bazel_version(name = "bazel_version")
@@ -21,12 +21,6 @@ local_repository(
     name = "blackjack",
     path = "../..",
 )
-#http_archive(
-#    name = "blackjack",
-#    url = "https://github.com/wildarch/blackjack/archive/f9d49ea9f93aabcea0fa9d8e90cb854c7a1de9ce.zip",
-#    sha256 = "496410e369ee6a986f223071d47c5f69302abaf41840a5f3451000ee5f4739bd",
-#    strip_prefix = "blackjack-f9d49ea9f93aabcea0fa9d8e90cb854c7a1de9ce",
-#)
 
 load("@blackjack//:workspace.bzl", "blackjack_cargo")
 blackjack_cargo()

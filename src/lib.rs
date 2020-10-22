@@ -1,7 +1,9 @@
 use cargo_lock::Lockfile;
-use cargo_metadata::{DependencyKind, Metadata, Node, NodeDep, Package, PackageId, Target};
+use cargo_metadata::{DependencyKind, Metadata, Node, Package, PackageId, Target};
+use cfg_expr::targets::get_builtin_target_by_triple;
 use serde::Deserialize;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
+use std::fmt;
 use std::io::Write;
 
 #[derive(Debug, Deserialize, Default)]
@@ -29,6 +31,7 @@ struct BlackjackMetadata {
 }
 
 const DEFAULT_PREFIX: &str = "crates_io";
+const SUPPORTED_TARGETS: &[&str] = &["x86_64-apple-darwin", "x86_64-unknown-linux-gnu"];
 
 fn default_crate_opts() -> Vec<(String, CrateOpts)> {
     vec![
@@ -65,6 +68,13 @@ fn default_crate_opts() -> Vec<(String, CrateOpts)> {
                     "--cfg=libc_packedN".to_string(),
                     "--cfg=libc_cfg_target_vendor".to_string(),
                 ],
+                ..Default::default()
+            },
+        ),
+        (
+            "typenum".to_string(),
+            CrateOpts {
+                build_script: true,
                 ..Default::default()
             },
         ),
@@ -187,13 +197,7 @@ def cargo_dependencies():
         self.metadata.resolve.as_ref().unwrap().nodes.iter()
     }
 
-    fn crate_type(&self, package_id: &PackageId) -> CrateType {
-        let package = self
-            .metadata
-            .packages
-            .iter()
-            .find(|p| &p.id == package_id)
-            .unwrap();
+    fn crate_type(&self, package: &Package) -> CrateType {
         match package.targets[0].crate_types[0].as_ref() {
             "proc-macro" => CrateType::ProcMacro,
             _ => CrateType::Lib,
@@ -267,39 +271,100 @@ def cargo_dependencies():
         }
     }
 
+    // Add a package to the given DependencySet, with an optional target predicate.
+    fn add_dep<T: fmt::Display>(
+        &self,
+        dep_set: &mut DependencySet,
+        target: &Option<T>,
+        package: &Package,
+    ) {
+        let dep_label = self.dep_label(package);
+        if let Some(target_expr) = target {
+            if let Some(_) = get_builtin_target_by_triple(&target_expr.to_string()) {
+                // The target expr is a target triple
+                if SUPPORTED_TARGETS.contains(&target_expr.to_string().as_str()) {
+                    dep_set
+                        .platform_specific_deps
+                        .entry(triple_to_condition(target_expr))
+                        .or_insert_with(Vec::new)
+                        .push(dep_label);
+                }
+            } else {
+                // The target triple is a more complex cfg(..) expression
+                let target_expr = cfg_expr::Expression::parse(&target_expr.to_string())
+                    .expect("Failed to parse target");
+                // Check to which targets the target expression applies
+                for target in SUPPORTED_TARGETS {
+                    let target = get_builtin_target_by_triple(target).unwrap();
+                    let uses_dep = target_expr.eval(|pred| match pred {
+                        cfg_expr::Predicate::Target(tp) => tp.matches(target),
+                        _ => false,
+                    });
+                    if uses_dep {
+                        dep_set
+                            .platform_specific_deps
+                            .entry(triple_to_condition(target.triple))
+                            .or_insert_with(Vec::new)
+                            .push(dep_label.clone());
+                    }
+                }
+            }
+        } else {
+            // No target specified, add to the common dependencies for all platforms
+            dep_set.common_deps.push(dep_label);
+        }
+    }
+
+    fn crate_deps(&self, node: &Node) -> CrateDependencies {
+        let mut crate_deps = CrateDependencies::default();
+        for dep in &node.deps {
+            let package = self.packages.get(&dep.pkg).unwrap();
+            let mut use_dep = false;
+            for dep_kind in &dep.dep_kinds {
+                // The dependency kind determines to which dependency set we need to add the
+                // package.
+                let dep_set = match dep_kind.kind {
+                    DependencyKind::Build => Some(&mut crate_deps.build_deps),
+                    DependencyKind::Normal if self.crate_type(&package) == CrateType::ProcMacro => {
+                        Some(&mut crate_deps.proc_macro_deps)
+                    }
+                    DependencyKind::Normal => Some(&mut crate_deps.normal_deps),
+                    _ => None,
+                };
+                if let Some(dep_set) = dep_set {
+                    use_dep = true;
+                    self.add_dep(dep_set, &dep_kind.target, &package);
+                }
+            }
+            if use_dep {
+                let dep_name = sanitize_name(&dep.name);
+                let package_name = sanitize_name(&package.name);
+                if dep_name != package_name {
+                    crate_deps.aliases.insert(self.dep_label(package), dep_name);
+                }
+            }
+        }
+        // If any dependency sets have platform specific dependencies, they need to have a default
+        // condition for platforms that do not need any platform specific dependencies.
+        for dep_set in [
+            &mut crate_deps.build_deps,
+            &mut crate_deps.proc_macro_deps,
+            &mut crate_deps.normal_deps,
+        ]
+        .iter_mut()
+        .filter(|ds| !ds.platform_specific_deps.is_empty())
+        {
+            // If there are any platform specific deps, add the default empty condition
+            dep_set
+                .platform_specific_deps
+                .insert("//conditions:default".to_string(), Vec::new());
+        }
+        crate_deps
+    }
+
     fn render_build_file(&self, node: &Node, package: &Package) -> String {
         let target = library_target(package);
-        let all_deps: Vec<NodeDep> = node
-            .deps
-            .iter()
-            .filter(|d| d.dep_kinds.iter().any(|k| k.kind == DependencyKind::Normal))
-            .cloned()
-            .collect();
-
-        let aliases: HashMap<String, String> = all_deps
-            .iter()
-            .filter_map(|d| {
-                let dep_name = sanitize_name(&d.name);
-                let package = &self.packages.get(&d.pkg).unwrap();
-                let package_name = sanitize_name(&package.name);
-                if dep_name == package_name {
-                    None
-                } else {
-                    Some((self.dep_label(package), dep_name))
-                }
-            })
-            .collect();
-
-        let mut deps: Vec<String> = all_deps
-            .iter()
-            .filter(|d| self.crate_type(&d.pkg) == CrateType::Lib)
-            .map(|d| self.dep_label(self.packages.get(&d.pkg).unwrap()))
-            .collect();
-        let proc_macro_deps: Vec<String> = all_deps
-            .iter()
-            .filter(|d| self.crate_type(&d.pkg) == CrateType::ProcMacro)
-            .map(|d| self.dep_label(self.packages.get(&d.pkg).unwrap()))
-            .collect();
+        let mut crate_deps = self.crate_deps(node);
         let crate_opts = self
             .blackjack_metadata
             .crate_opts
@@ -307,17 +372,24 @@ def cargo_dependencies():
             .cloned()
             .unwrap_or_default();
         let build_script = if crate_opts.build_script {
-            deps.push(":build_script".to_string());
-            r#"
+            crate_deps
+                .normal_deps
+                .common_deps
+                .push(":build_script".to_string());
+            format!(
+                r#"
 load("@io_bazel_rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 
 cargo_build_script(
     name = "build_script",
-    srcs = ["build.rs"],
+    srcs = glob(["build.rs", "build/*.rs"]),
+    deps = {build_deps},
 )
-                "#
+                "#,
+                build_deps = crate_deps.build_deps
+            )
         } else {
-            ""
+            "".to_string()
         };
         format!(
             r#"
@@ -328,8 +400,8 @@ rust_library(
     aliases = {aliases:?},
     srcs = glob(["**/*.rs"]),
     crate_type = "{crate_type}",
-    deps = {deps:?},
-    proc_macro_deps = {proc_macro_deps:?},
+    deps = {deps},
+    proc_macro_deps = {proc_macro_deps},
     edition = "{edition}",
     crate_features = {crate_features:?},
     rustc_flags = ["--cap-lints=allow"] + {rustc_flags:?},
@@ -338,10 +410,10 @@ rust_library(
     "#,
             build_script = build_script,
             name = sanitize_name(&package.name),
-            aliases = aliases,
+            aliases = crate_deps.aliases,
             crate_type = target.crate_types[0],
-            deps = deps,
-            proc_macro_deps = proc_macro_deps,
+            deps = crate_deps.normal_deps,
+            proc_macro_deps = crate_deps.proc_macro_deps,
             edition = target.edition,
             crate_features = node.features,
             rustc_flags = crate_opts.rustc_flags,
@@ -360,6 +432,38 @@ rust_library(
             .as_ref()
             .expect("package in lockfile is missing a checksum")
             .to_string()
+    }
+}
+
+/// All dependencies of a crate
+#[derive(Default)]
+struct CrateDependencies {
+    aliases: BTreeMap<String, String>,
+    normal_deps: DependencySet,
+    proc_macro_deps: DependencySet,
+    build_deps: DependencySet,
+}
+
+/// Represents the common and platform specific dependencies of a particular class (normal,
+/// proc_macro, build) for a crate.
+#[derive(Default)]
+struct DependencySet {
+    common_deps: Vec<String>,
+    platform_specific_deps: BTreeMap<String, Vec<String>>,
+}
+
+// Renders the dependencies as a valid bazel dependency set
+impl fmt::Display for DependencySet {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if self.platform_specific_deps.is_empty() {
+            write!(f, "{:?}", self.common_deps)
+        } else {
+            write!(
+                f,
+                "{:?} + select({:?})",
+                self.common_deps, self.platform_specific_deps
+            )
+        }
     }
 }
 
@@ -387,7 +491,7 @@ fn library_target(package: &Package) -> &Target {
                 .iter()
                 .any(|kind| kind == "lib" || kind == "proc-macro")
         })
-        .expect("dependency provides not lib or proc-macro target")
+        .expect("dependency provides no lib or proc-macro target")
 }
 
 fn direct_dependencies(metadata: &Metadata) -> HashSet<PackageId> {
@@ -401,4 +505,8 @@ fn direct_dependencies(metadata: &Metadata) -> HashSet<PackageId> {
     workspace_nodes
         .flat_map(|n| n.deps.iter().map(|d| d.pkg.clone()))
         .collect()
+}
+
+fn triple_to_condition<T: fmt::Display>(triple: T) -> String {
+    format!("@io_bazel_rules_rust//rust/platform:{}", triple)
 }

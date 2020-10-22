@@ -1,0 +1,8 @@
+[package]
+name = "platform_specific"
+version = "0.1.0"
+authors = ["Daan de Graaf <daandegraaf9@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+battery = "0.7"

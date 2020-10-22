@@ -2,46 +2,31 @@ use blackjack::Blackjack;
 use cargo_lock::Lockfile;
 use cargo_metadata::MetadataCommand;
 use std::io::Write;
-use std::path::{Path, PathBuf};
-
-const CARGO_TOML_RUNFILES_PATH: &str = "Cargo.toml";
-const CARGO_RUNFILES_PATH: &str = "external/blackjack_cargo/cargo";
-
-fn workspace_path() -> PathBuf {
-    // This is somewhat of an implementation detail
-    let mut cargo_toml_path = std::fs::read_link(CARGO_TOML_RUNFILES_PATH)
-        .unwrap_or_else(|_| PathBuf::from("Cargo.toml"));
-    cargo_toml_path.pop();
-    cargo_toml_path
-}
-
-fn set_cargo_path(metadata: &mut MetadataCommand) {
-    let cargo_runfiles_path = Path::new(CARGO_RUNFILES_PATH);
-    if cargo_runfiles_path.exists() {
-        eprintln!("Found cargo in runfiles: {}", cargo_runfiles_path.display());
-        metadata.cargo_path(cargo_runfiles_path);
-    } else {
-        eprintln!(
-            "Using default cargo in path. Working dir: {}",
-            std::env::current_dir().unwrap().display()
-        );
-    }
-}
+use std::path::PathBuf;
 
 fn main() {
-    let workspace_path = workspace_path();
-    let cargo_toml_path = workspace_path.join("Cargo.toml");
+    let mut args = std::env::args().skip(1);
+    let cargo_path = args.next().expect("No cargo path provided (1st argument)");
+    let mut cargo_toml_path: PathBuf = args
+        .next()
+        .expect("No Cargo.toml path provided (2nd argument)")
+        .into();
+    // If the Cargo.toml path is a symlink, resolve it first
+    if let Ok(p) = std::fs::read_link(&cargo_toml_path) {
+        cargo_toml_path = p;
+    }
 
     let mut metadata = MetadataCommand::new();
-    metadata.manifest_path(&cargo_toml_path).other_options(vec![
-        // TODO make this configurable
-        "--filter-platform".to_string(),
-        "x86_64-unknown-linux-gnu".to_string(),
-    ]);
-    set_cargo_path(&mut metadata);
+    metadata
+        .cargo_path(cargo_path)
+        .manifest_path(&cargo_toml_path);
 
     eprintln!("Blackjack will run `cargo metadata`, which may update your `Cargo.lock` file if it is not up to date");
 
+    let workspace_path = {
+        cargo_toml_path.pop();
+        cargo_toml_path
+    };
     let output_path = workspace_path.join("cargo_dependencies.bzl");
     eprintln!("Writing output to {}", output_path.display());
     eprintln!("Press enter to continue, or Ctrl-C to abort");

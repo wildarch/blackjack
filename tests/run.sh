@@ -4,6 +4,11 @@ set -e
 echo | bazel run //:blackjack
 bazel build //:all
 
+pushd tests/platform_specific
+echo | bazel run //:blackjack
+bazel run //:main
+popd
+
 pushd tests/popular_crates
 echo | bazel run //:blackjack
 bazel build //:crates
@@ -19,3 +24,4 @@ echo | bazel run //:blackjack
 bazel run //crate1
 bazel run //crate2
 popd
+

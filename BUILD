@@ -11,6 +11,7 @@ rust_library(
         "@blackjack_crates_io_serde//:serde", 
         "@blackjack_crates_io_serde_json//:serde_json",
         "@blackjack_crates_io_cargo_lock//:cargo_lock",
+        "@blackjack_crates_io_cfg_expr//:cfg_expr",
     ],
     edition = "2018",
     visibility = ["//visibility:public"],
