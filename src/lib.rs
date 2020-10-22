@@ -31,7 +31,11 @@ struct BlackjackMetadata {
 }
 
 const DEFAULT_PREFIX: &str = "crates_io";
-const SUPPORTED_TARGETS: &[&str] = &["x86_64-apple-darwin", "x86_64-unknown-linux-gnu"];
+const SUPPORTED_TARGETS: &[&str] = &[
+    "x86_64-apple-darwin",
+    "x86_64-unknown-linux-gnu",
+    "x86_64-pc-windows-msvc",
+];
 
 fn default_crate_opts() -> Vec<(String, CrateOpts)> {
     vec![

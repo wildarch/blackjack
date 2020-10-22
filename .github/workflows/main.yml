@@ -13,12 +13,14 @@ jobs:
       # Keep running for other platforms when one fails
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         include:
         - os: ubuntu-latest
           PLATFORM: linux
         - os: macos-latest
           PLATFORM: darwin
+        - os: windows-latest
+          PLATFORM: windows
     steps:
     - uses: actions/checkout@v2
 

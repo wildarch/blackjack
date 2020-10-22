@@ -47,7 +47,7 @@ rust_library(
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@crates_io_cfg_if_1.0.0//:cfg_if", "@crates_io_num_traits_0.2.12//:num_traits", "@crates_io_uom_0.30.0//:uom"] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_core_foundation_0.7.0//:core_foundation", "@crates_io_libc_0.2.79//:libc", "@crates_io_mach_0.3.2//:mach"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_lazycell_1.3.0//:lazycell"]}),
+    deps = ["@crates_io_cfg_if_1.0.0//:cfg_if", "@crates_io_num_traits_0.2.12//:num_traits", "@crates_io_uom_0.30.0//:uom"] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_core_foundation_0.7.0//:core_foundation", "@crates_io_libc_0.2.79//:libc", "@crates_io_mach_0.3.2//:mach"], "@io_bazel_rules_rust//rust/platform:x86_64-pc-windows-msvc": ["@crates_io_winapi_0.3.9//:winapi"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_lazycell_1.3.0//:lazycell"]}),
     proc_macro_deps = [],
     edition = "2018",
     crate_features = [],
@@ -300,12 +300,20 @@ rust_library(
         build_file_content = """
 load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
 
+load("@io_bazel_rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
+
+cargo_build_script(
+    name = "build_script",
+    srcs = glob(["build.rs", "build/*.rs"]),
+    deps = [],
+)
+                
 rust_library(
     name = "winapi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = [],
+    deps = [":build_script"],
     proc_macro_deps = [],
     edition = "2015",
     crate_features = ["devguid", "errhandlingapi", "handleapi", "impl-default", "ioapiset", "ntdef", "setupapi", "winbase", "winerror"],
