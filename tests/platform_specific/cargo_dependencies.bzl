@@ -15,7 +15,7 @@ def cargo_dependencies():
         strip_prefix = "autocfg-1.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "autocfg",
@@ -40,14 +40,14 @@ rust_library(
         strip_prefix = "battery-0.7.7",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "battery",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@crates_io_cfg_if_1.0.0//:cfg_if", "@crates_io_num_traits_0.2.12//:num_traits", "@crates_io_uom_0.30.0//:uom"] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_core_foundation_0.7.0//:core_foundation", "@crates_io_libc_0.2.79//:libc", "@crates_io_mach_0.3.2//:mach"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_lazycell_1.3.0//:lazycell"]}),
+    deps = ["@crates_io_cfg_if_1.0.0//:cfg_if", "@crates_io_num_traits_0.2.12//:num_traits", "@crates_io_uom_0.30.0//:uom"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_core_foundation_0.7.0//:core_foundation", "@crates_io_libc_0.2.79//:libc", "@crates_io_mach_0.3.2//:mach"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_lazycell_1.3.0//:lazycell"]}),
     proc_macro_deps = [],
     edition = "2018",
     crate_features = [],
@@ -65,7 +65,7 @@ rust_library(
         strip_prefix = "cfg-if-1.0.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "cfg_if",
@@ -90,7 +90,7 @@ rust_library(
         strip_prefix = "core-foundation-0.7.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "core_foundation",
@@ -115,7 +115,7 @@ rust_library(
         strip_prefix = "core-foundation-sys-0.7.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "core_foundation_sys",
@@ -140,7 +140,7 @@ rust_library(
         strip_prefix = "lazycell-1.3.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "lazycell",
@@ -165,7 +165,7 @@ rust_library(
         strip_prefix = "libc-0.2.79",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "libc",
@@ -190,14 +190,14 @@ rust_library(
         strip_prefix = "mach-0.3.2",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "mach",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = [] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.79//:libc"]}),
+    deps = [] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.79//:libc"]}),
     proc_macro_deps = [],
     edition = "2015",
     crate_features = ["default"],
@@ -215,7 +215,7 @@ rust_library(
         strip_prefix = "num-traits-0.2.12",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "num_traits",
@@ -240,9 +240,9 @@ rust_library(
         strip_prefix = "typenum-1.12.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
-load("@io_bazel_rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
+load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 
 cargo_build_script(
     name = "build_script",
@@ -273,7 +273,7 @@ rust_library(
         strip_prefix = "uom-0.30.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "uom",
@@ -298,7 +298,7 @@ rust_library(
         strip_prefix = "winapi-0.3.9",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "winapi",
@@ -323,7 +323,7 @@ rust_library(
         strip_prefix = "winapi-i686-pc-windows-gnu-0.4.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "winapi_i686_pc_windows_gnu",
@@ -348,7 +348,7 @@ rust_library(
         strip_prefix = "winapi-x86_64-pc-windows-gnu-0.4.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "winapi_x86_64_pc_windows_gnu",

@@ -19,8 +19,8 @@ def _blackjack_cargo_impl(ctx):
   os_name = ctx.os.name.lower()
   target = _cargo_target(os_name)
   ctx.download_and_extract(
-    url = "https://static.rust-lang.org/dist/2020-08-03/cargo-0.46.1-%s.tar.gz" % target,
-    stripPrefix = "cargo-0.46.1-%s/cargo/bin" % target,
+    url = "https://static.rust-lang.org/dist/2021-02-11/cargo-1.50.0-%s.tar.gz" % target,
+    stripPrefix = "cargo-1.50.0-%s/cargo/bin" % target,
   )
   ctx.file("BUILD.bazel", """alias(name="blackjack_cargo.exe", actual = "%s", visibility  = ["//visibility:public"])""" % _cargo_binary_name(os_name))
 

@@ -1,20 +1,17 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
-    name = "io_bazel_rules_rust",
-    strip_prefix = "rules_rust-3c9acce229b425e583dab7cf9523260bb05ecac3",
-    url = "https://github.com/bazelbuild/rules_rust/archive/3c9acce229b425e583dab7cf9523260bb05ecac3.zip",
-    sha256 = "e54a1445656fdea6b50ba5fac92433ce7ca09dc47dc627f80397e7ffe2c0bde7",
+    name = "rules_rust",
+    sha256 = "e6d835ee673f388aa5b62dc23d82db8fc76497e93fa47d8a4afe97abaf09b10d",
+    strip_prefix = "rules_rust-f37b9d6a552e9412285e627f30cb124e709f4f7a",
+    urls = [
+        # Master branch as of 2021-01-27
+        "https://github.com/bazelbuild/rules_rust/archive/f37b9d6a552e9412285e627f30cb124e709f4f7a.tar.gz",
+    ],
 )
-http_archive(
-    name = "bazel_skylib",
-    sha256 = "605dde26ddac0f3439e74801ab79f9dbf1c6e3854d4c3cb2c0b9d73119c56a14",
-    strip_prefix = "bazel-skylib-2ec2e6d715e993d96ad6222770805b5bd25399ae",
-    url = "https://github.com/bazelbuild/bazel-skylib/archive/2ec2e6d715e993d96ad6222770805b5bd25399ae.zip",  # 2020-09-04
-)
-load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
-bazel_version(name = "bazel_version")
-load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
+
+load("@rules_rust//rust:repositories.bzl", "rust_repositories")
+
 rust_repositories()
 
 local_repository(

@@ -1,6 +1,6 @@
 exports_files(["src/bin/blackjack.rs"], visibility = ["//visibility:public"],)
 
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 load("@blackjack//:blackjack.bzl", "blackjack")
 
 rust_library(

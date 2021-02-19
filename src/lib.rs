@@ -378,7 +378,7 @@ def cargo_dependencies():
                 .push(":build_script".to_string());
             format!(
                 r#"
-load("@io_bazel_rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
+load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 
 cargo_build_script(
     name = "build_script",
@@ -393,7 +393,7 @@ cargo_build_script(
         };
         format!(
             r#"
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 {build_script}
 rust_library(
     name = "{name}",
@@ -508,5 +508,5 @@ fn direct_dependencies(metadata: &Metadata) -> HashSet<PackageId> {
 }
 
 fn triple_to_condition<T: fmt::Display>(triple: T) -> String {
-    format!("@io_bazel_rules_rust//rust/platform:{}", triple)
+    format!("@rules_rust//rust/platform:{}", triple)
 }
