@@ -15,7 +15,7 @@ def cargo_dependencies():
         strip_prefix = "adler-0.2.3",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "adler",
@@ -40,7 +40,7 @@ rust_library(
         strip_prefix = "cc-1.0.59",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "cc",
@@ -65,7 +65,7 @@ rust_library(
         strip_prefix = "cfg-if-0.1.10",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "cfg_if",
@@ -90,7 +90,7 @@ rust_library(
         strip_prefix = "crc32fast-1.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "crc32fast",
@@ -115,7 +115,7 @@ rust_library(
         strip_prefix = "flate2-1.0.17",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "flate2",
@@ -140,7 +140,7 @@ rust_library(
         strip_prefix = "libc-0.2.76",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "libc",
@@ -165,7 +165,7 @@ rust_library(
         strip_prefix = "libz-sys-1.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "libz_sys",
@@ -190,7 +190,7 @@ rust_library(
         strip_prefix = "miniz_oxide-0.4.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "miniz_oxide",
@@ -215,7 +215,7 @@ rust_library(
         strip_prefix = "pkg-config-0.3.18",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "pkg_config",
@@ -240,7 +240,7 @@ rust_library(
         strip_prefix = "vcpkg-0.2.10",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "vcpkg",

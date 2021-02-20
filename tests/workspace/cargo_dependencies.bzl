@@ -15,7 +15,7 @@ def cargo_dependencies():
         strip_prefix = "bitflags-1.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "bitflags",
@@ -40,7 +40,7 @@ rust_library(
         strip_prefix = "cfg-if-0.1.10",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "cfg_if",
@@ -65,14 +65,14 @@ rust_library(
         strip_prefix = "getrandom-0.1.14",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "getrandom",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
+    deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["std"],
@@ -90,7 +90,7 @@ rust_library(
         strip_prefix = "libc-0.2.76",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "libc",
@@ -115,7 +115,7 @@ rust_library(
         strip_prefix = "ppv-lite86-0.2.9",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "ppv_lite86",
@@ -140,14 +140,14 @@ rust_library(
         strip_prefix = "rand-0.7.3",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "rand",
     aliases = {"@crates_io_getrandom_0.1.14//:getrandom": "getrandom_package"},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@crates_io_getrandom_0.1.14//:getrandom", "@crates_io_rand_core_0.5.1//:rand_core"] + select({"//conditions:default": [], "@io_bazel_rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@io_bazel_rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"]}),
+    deps = ["@crates_io_getrandom_0.1.14//:getrandom", "@crates_io_rand_core_0.5.1//:rand_core"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"]}),
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["alloc", "default", "getrandom", "getrandom_package", "libc", "std"],
@@ -165,7 +165,7 @@ rust_library(
         strip_prefix = "rand_chacha-0.2.2",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "rand_chacha",
@@ -190,7 +190,7 @@ rust_library(
         strip_prefix = "rand_core-0.5.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "rand_core",
@@ -215,7 +215,7 @@ rust_library(
         strip_prefix = "rand_hc-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "rand_hc",
@@ -240,7 +240,7 @@ rust_library(
         strip_prefix = "wasi-0.9.0+wasi-snapshot-preview1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "wasi",

@@ -9,22 +9,22 @@ def cargo_dependencies():
 
 
     http_archive(
-        name = "blackjack_crates_io_autocfg_1.0.1",
-        url = "https://crates.io/api/v1/crates/autocfg/1.0.1/download",
-        sha256 = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a",
-        strip_prefix = "autocfg-1.0.1",
+        name = "blackjack_crates_io_cargo_lock",
+        url = "https://crates.io/api/v1/crates/cargo-lock/6.0.1/download",
+        sha256 = "e6f16e7adc20969298b1e137ac21ab3a7e7a9412fec71f963ff2fdc41663d70f",
+        strip_prefix = "cargo-lock-6.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "autocfg",
+    name = "cargo_lock",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = [],
+    deps = ["@blackjack_crates_io_semver_0.11.0//:semver", "@blackjack_crates_io_serde//:serde", "@blackjack_crates_io_toml_0.5.6//:toml", "@blackjack_crates_io_url_2.1.1//:url"],
     proc_macro_deps = [],
-    edition = "2015",
+    edition = "2018",
     crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
@@ -34,23 +34,23 @@ rust_library(
     
 
     http_archive(
-        name = "blackjack_crates_io_cargo_lock",
-        url = "https://crates.io/api/v1/crates/cargo-lock/4.0.1/download",
-        sha256 = "8504b63dd1249fd1745b7b4ef9b6f7b107ddeb3c95370043c7dbcc38653a2679",
-        strip_prefix = "cargo-lock-4.0.1",
+        name = "blackjack_crates_io_cargo_platform_0.1.1",
+        url = "https://crates.io/api/v1/crates/cargo-platform/0.1.1/download",
+        sha256 = "0226944a63d1bf35a3b5f948dd7c59e263db83695c9e8bffc4037de02e30f1d7",
+        strip_prefix = "cargo-platform-0.1.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "cargo_lock",
+    name = "cargo_platform",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@blackjack_crates_io_gumdrop_0.7.0//:gumdrop", "@blackjack_crates_io_petgraph_0.5.1//:petgraph", "@blackjack_crates_io_semver_0.9.0//:semver", "@blackjack_crates_io_serde//:serde", "@blackjack_crates_io_toml_0.5.6//:toml", "@blackjack_crates_io_url_2.1.1//:url"],
+    deps = ["@blackjack_crates_io_serde//:serde"],
     proc_macro_deps = [],
     edition = "2018",
-    crate_features = ["cli", "default", "dependency-tree", "gumdrop", "petgraph"],
+    crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -60,21 +60,21 @@ rust_library(
 
     http_archive(
         name = "blackjack_crates_io_cargo_metadata",
-        url = "https://crates.io/api/v1/crates/cargo_metadata/0.10.0/download",
-        sha256 = "b8de60b887edf6d74370fc8eb177040da4847d971d6234c7b13a6da324ef0caf",
-        strip_prefix = "cargo_metadata-0.10.0",
+        url = "https://crates.io/api/v1/crates/cargo_metadata/0.12.3/download",
+        sha256 = "7714a157da7991e23d90686b9524b9e12e0407a108647f52e9328f4b3d51ac7f",
+        strip_prefix = "cargo_metadata-0.12.3",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "cargo_metadata",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@blackjack_crates_io_semver_0.9.0//:semver", "@blackjack_crates_io_serde//:serde", "@blackjack_crates_io_serde_json//:serde_json"],
-    proc_macro_deps = ["@blackjack_crates_io_serde_derive_1.0.113//:serde_derive"],
-    edition = "2015",
+    deps = ["@blackjack_crates_io_cargo_platform_0.1.1//:cargo_platform", "@blackjack_crates_io_semver_0.11.0//:semver", "@blackjack_crates_io_semver_parser_0.10.2//:semver_parser", "@blackjack_crates_io_serde//:serde", "@blackjack_crates_io_serde_json//:serde_json"],
+    proc_macro_deps = [],
+    edition = "2018",
     crate_features = ["default"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
@@ -85,122 +85,22 @@ rust_library(
 
     http_archive(
         name = "blackjack_crates_io_cfg_expr",
-        url = "https://crates.io/api/v1/crates/cfg-expr/0.4.1/download",
-        sha256 = "6c2be76f06820200669a77ae59a8328c6b8fe4496e8fb7fed02f2806a442c5ff",
-        strip_prefix = "cfg-expr-0.4.1",
+        url = "https://crates.io/api/v1/crates/cfg-expr/0.7.1/download",
+        sha256 = "2b81b9640fc656040fbf0d3f2bafacadcf17d55f2b0dc89589c1b80b0658fd5a",
+        strip_prefix = "cfg-expr-0.7.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "cfg_expr",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@blackjack_crates_io_smallvec_1.4.2//:smallvec"],
+    deps = ["@blackjack_crates_io_smallvec_1.6.1//:smallvec"],
     proc_macro_deps = [],
     edition = "2018",
     crate_features = ["default"],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
-        name = "blackjack_crates_io_fixedbitset_0.2.0",
-        url = "https://crates.io/api/v1/crates/fixedbitset/0.2.0/download",
-        sha256 = "37ab347416e802de484e4d03c7316c48f1ecb56574dfd4a46a80f173ce1de04d",
-        strip_prefix = "fixedbitset-0.2.0",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "fixedbitset",
-    aliases = {},
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = [],
-    proc_macro_deps = [],
-    edition = "2015",
-    crate_features = [],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
-        name = "blackjack_crates_io_gumdrop_0.7.0",
-        url = "https://crates.io/api/v1/crates/gumdrop/0.7.0/download",
-        sha256 = "ee50908bc1beeac1f2902e0b4e0cd0d844e716f5ebdc6f0cfc1163fe5e10bcde",
-        strip_prefix = "gumdrop-0.7.0",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "gumdrop",
-    aliases = {},
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = [],
-    proc_macro_deps = ["@blackjack_crates_io_gumdrop_derive_0.7.0//:gumdrop_derive"],
-    edition = "2018",
-    crate_features = ["default"],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
-        name = "blackjack_crates_io_gumdrop_derive_0.7.0",
-        url = "https://crates.io/api/v1/crates/gumdrop_derive/0.7.0/download",
-        sha256 = "90454ce4de40b7ca6a8968b5ef367bdab48413962588d0d2b1638d60090c35d7",
-        strip_prefix = "gumdrop_derive-0.7.0",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "gumdrop_derive",
-    aliases = {},
-    srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
-    deps = ["@blackjack_crates_io_proc_macro2_1.0.18//:proc_macro2", "@blackjack_crates_io_quote_1.0.7//:quote", "@blackjack_crates_io_syn_1.0.32//:syn"],
-    proc_macro_deps = [],
-    edition = "2018",
-    crate_features = ["default"],
-    rustc_flags = ["--cap-lints=allow"] + [],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
-        name = "blackjack_crates_io_hashbrown_0.8.2",
-        url = "https://crates.io/api/v1/crates/hashbrown/0.8.2/download",
-        sha256 = "e91b62f79061a0bc2e046024cb7ba44b08419ed238ecbd9adbd787434b9e8c25",
-        strip_prefix = "hashbrown-0.8.2",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "hashbrown",
-    aliases = {},
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = [],
-    proc_macro_deps = [],
-    edition = "2018",
-    crate_features = ["raw"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -215,7 +115,7 @@ rust_library(
         strip_prefix = "idna-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "idna",
@@ -234,38 +134,13 @@ rust_library(
     
 
     http_archive(
-        name = "blackjack_crates_io_indexmap_1.5.1",
-        url = "https://crates.io/api/v1/crates/indexmap/1.5.1/download",
-        sha256 = "86b45e59b16c76b11bf9738fd5d38879d3bd28ad292d7b313608becb17ae2df9",
-        strip_prefix = "indexmap-1.5.1",
-        type = "tar.gz",
-        build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
-
-rust_library(
-    name = "indexmap",
-    aliases = {},
-    srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
-    deps = ["@blackjack_crates_io_hashbrown_0.8.2//:hashbrown"],
-    proc_macro_deps = [],
-    edition = "2018",
-    crate_features = [],
-    rustc_flags = ["--cap-lints=allow"] + ["--cfg=has_std"],
-    visibility = ["//visibility:public"],
-)
-    """,
-    )
-    
-
-    http_archive(
         name = "blackjack_crates_io_itoa_0.4.6",
         url = "https://crates.io/api/v1/crates/itoa/0.4.6/download",
         sha256 = "dc6f3ad7b9d11a0c00842ff8de1b60ee58661048eb8049ed33c73594f359d7e6",
         strip_prefix = "itoa-0.4.6",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "itoa",
@@ -290,7 +165,7 @@ rust_library(
         strip_prefix = "matches-0.1.8",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "matches",
@@ -315,7 +190,7 @@ rust_library(
         strip_prefix = "percent-encoding-2.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "percent_encoding",
@@ -334,23 +209,23 @@ rust_library(
     
 
     http_archive(
-        name = "blackjack_crates_io_petgraph_0.5.1",
-        url = "https://crates.io/api/v1/crates/petgraph/0.5.1/download",
-        sha256 = "467d164a6de56270bd7c4d070df81d07beace25012d5103ced4e9ff08d6afdb7",
-        strip_prefix = "petgraph-0.5.1",
+        name = "blackjack_crates_io_pest_2.1.3",
+        url = "https://crates.io/api/v1/crates/pest/2.1.3/download",
+        sha256 = "10f4872ae94d7b90ae48754df22fd42ad52ce740b8f370b03da4835417403e53",
+        strip_prefix = "pest-2.1.3",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
-    name = "petgraph",
+    name = "pest",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@blackjack_crates_io_fixedbitset_0.2.0//:fixedbitset", "@blackjack_crates_io_indexmap_1.5.1//:indexmap"],
+    deps = ["@blackjack_crates_io_ucd_trie_0.1.3//:ucd_trie"],
     proc_macro_deps = [],
-    edition = "2018",
-    crate_features = ["default", "graphmap", "matrix_graph", "stable_graph"],
+    edition = "2015",
+    crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -365,7 +240,7 @@ rust_library(
         strip_prefix = "proc-macro2-1.0.18",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "proc_macro2",
@@ -390,7 +265,7 @@ rust_library(
         strip_prefix = "quote-1.0.7",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "quote",
@@ -415,7 +290,7 @@ rust_library(
         strip_prefix = "ryu-1.0.5",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "ryu",
@@ -434,20 +309,20 @@ rust_library(
     
 
     http_archive(
-        name = "blackjack_crates_io_semver_0.9.0",
-        url = "https://crates.io/api/v1/crates/semver/0.9.0/download",
-        sha256 = "1d7eb9ef2c18661902cc47e535f9bc51b78acd254da71d375c2f6720d9a40403",
-        strip_prefix = "semver-0.9.0",
+        name = "blackjack_crates_io_semver_0.11.0",
+        url = "https://crates.io/api/v1/crates/semver/0.11.0/download",
+        sha256 = "f301af10236f6df4160f7c3f04eec6dbc70ace82d23326abad5edee88801c6b6",
+        strip_prefix = "semver-0.11.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "semver",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = ["@blackjack_crates_io_semver_parser_0.7.0//:semver_parser", "@blackjack_crates_io_serde//:serde"],
+    deps = ["@blackjack_crates_io_semver_parser_0.10.2//:semver_parser", "@blackjack_crates_io_serde//:serde"],
     proc_macro_deps = [],
     edition = "2015",
     crate_features = ["default", "serde"],
@@ -459,22 +334,22 @@ rust_library(
     
 
     http_archive(
-        name = "blackjack_crates_io_semver_parser_0.7.0",
-        url = "https://crates.io/api/v1/crates/semver-parser/0.7.0/download",
-        sha256 = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3",
-        strip_prefix = "semver-parser-0.7.0",
+        name = "blackjack_crates_io_semver_parser_0.10.2",
+        url = "https://crates.io/api/v1/crates/semver-parser/0.10.2/download",
+        sha256 = "00b0bef5b7f9e0df16536d3961cfb6e84331c065b4066afb39768d0e319411f7",
+        strip_prefix = "semver-parser-0.10.2",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "semver_parser",
     aliases = {},
     srcs = glob(["**/*.rs"]),
     crate_type = "lib",
-    deps = [],
+    deps = ["@blackjack_crates_io_pest_2.1.3//:pest"],
     proc_macro_deps = [],
-    edition = "2015",
+    edition = "2018",
     crate_features = [],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
@@ -490,7 +365,7 @@ rust_library(
         strip_prefix = "serde-1.0.113",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "serde",
@@ -515,7 +390,7 @@ rust_library(
         strip_prefix = "serde_derive-1.0.113",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "serde_derive",
@@ -535,12 +410,12 @@ rust_library(
 
     http_archive(
         name = "blackjack_crates_io_serde_json",
-        url = "https://crates.io/api/v1/crates/serde_json/1.0.55/download",
-        sha256 = "ec2c5d7e739bc07a3e73381a39d61fdb5f671c60c1df26a130690665803d8226",
-        strip_prefix = "serde_json-1.0.55",
+        url = "https://crates.io/api/v1/crates/serde_json/1.0.62/download",
+        sha256 = "ea1c6153794552ea7cf7cf63b1231a25de00ec90db326ba6264440fa08e31486",
+        strip_prefix = "serde_json-1.0.62",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "serde_json",
@@ -550,7 +425,7 @@ rust_library(
     deps = ["@blackjack_crates_io_itoa_0.4.6//:itoa", "@blackjack_crates_io_ryu_1.0.5//:ryu", "@blackjack_crates_io_serde//:serde"],
     proc_macro_deps = [],
     edition = "2018",
-    crate_features = ["default", "std"],
+    crate_features = ["default", "std", "unbounded_depth"],
     rustc_flags = ["--cap-lints=allow"] + [],
     visibility = ["//visibility:public"],
 )
@@ -559,13 +434,13 @@ rust_library(
     
 
     http_archive(
-        name = "blackjack_crates_io_smallvec_1.4.2",
-        url = "https://crates.io/api/v1/crates/smallvec/1.4.2/download",
-        sha256 = "fbee7696b84bbf3d89a1c2eccff0850e3047ed46bfcd2e92c29a2d074d57e252",
-        strip_prefix = "smallvec-1.4.2",
+        name = "blackjack_crates_io_smallvec_1.6.1",
+        url = "https://crates.io/api/v1/crates/smallvec/1.6.1/download",
+        sha256 = "fe0f37c9e8f3c5a4a66ad655a93c74daac4ad00c441533bf5c6e7990bb42604e",
+        strip_prefix = "smallvec-1.6.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "smallvec",
@@ -590,7 +465,7 @@ rust_library(
         strip_prefix = "syn-1.0.32",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "syn",
@@ -615,7 +490,7 @@ rust_library(
         strip_prefix = "tinyvec-0.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "tinyvec",
@@ -640,7 +515,7 @@ rust_library(
         strip_prefix = "toml-0.5.6",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "toml",
@@ -659,13 +534,38 @@ rust_library(
     
 
     http_archive(
+        name = "blackjack_crates_io_ucd_trie_0.1.3",
+        url = "https://crates.io/api/v1/crates/ucd-trie/0.1.3/download",
+        sha256 = "56dee185309b50d1f11bfedef0fe6d036842e3fb77413abef29f8f8d1c5d4c1c",
+        strip_prefix = "ucd-trie-0.1.3",
+        type = "tar.gz",
+        build_file_content = """
+load("@rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "ucd_trie",
+    aliases = {},
+    srcs = glob(["**/*.rs"]),
+    crate_type = "lib",
+    deps = [],
+    proc_macro_deps = [],
+    edition = "2018",
+    crate_features = ["default", "std"],
+    rustc_flags = ["--cap-lints=allow"] + [],
+    visibility = ["//visibility:public"],
+)
+    """,
+    )
+    
+
+    http_archive(
         name = "blackjack_crates_io_unicode_bidi_0.3.4",
         url = "https://crates.io/api/v1/crates/unicode-bidi/0.3.4/download",
         sha256 = "49f2bd0c6468a8230e1db229cff8029217cf623c767ea5d60bfbd42729ea54d5",
         strip_prefix = "unicode-bidi-0.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "unicode_bidi",
@@ -690,7 +590,7 @@ rust_library(
         strip_prefix = "unicode-normalization-0.1.13",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "unicode_normalization",
@@ -715,7 +615,7 @@ rust_library(
         strip_prefix = "unicode-xid-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "unicode_xid",
@@ -740,7 +640,7 @@ rust_library(
         strip_prefix = "url-2.1.1",
         type = "tar.gz",
         build_file_content = """
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 
 rust_library(
     name = "url",

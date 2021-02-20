@@ -2,21 +2,20 @@ workspace(name = "blackjack")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
 http_archive(
-    name = "io_bazel_rules_rust",
-    strip_prefix = "rules_rust-3c9acce229b425e583dab7cf9523260bb05ecac3",
-    url = "https://github.com/bazelbuild/rules_rust/archive/3c9acce229b425e583dab7cf9523260bb05ecac3.zip",
-    sha256 = "e54a1445656fdea6b50ba5fac92433ce7ca09dc47dc627f80397e7ffe2c0bde7",
+    name = "rules_rust",
+    sha256 = "e6d835ee673f388aa5b62dc23d82db8fc76497e93fa47d8a4afe97abaf09b10d",
+    strip_prefix = "rules_rust-f37b9d6a552e9412285e627f30cb124e709f4f7a",
+    urls = [
+        # Master branch as of 2021-01-27
+        "https://github.com/bazelbuild/rules_rust/archive/f37b9d6a552e9412285e627f30cb124e709f4f7a.tar.gz",
+    ],
 )
-http_archive(
-    name = "bazel_skylib",
-    sha256 = "12ee3a5732e8c353fce4a710dbe045a16a161c49c79622faa1f2813f668bb442",
-    strip_prefix = "bazel-skylib-8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0",
-    url = "https://github.com/bazelbuild/bazel-skylib/archive/8f3151fb4a91d5f2ae4cad5901ea72fe30a2aba0.tar.gz",  # 2020-07-10
-)
-load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
-bazel_version(name = "bazel_version")
-load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
+
+load("@rules_rust//rust:repositories.bzl", "rust_repositories")
+
 rust_repositories()
 
 load("@blackjack//:workspace.bzl", "blackjack_cargo")
