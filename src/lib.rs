@@ -177,6 +177,8 @@ def cargo_dependencies():
 "#
         )?;
 
+        let mut have_at_least_one_archive = false;
+
         for node in self.nodes() {
             let package = self.packages.get(&node.id).unwrap();
             if !package
@@ -189,6 +191,12 @@ def cargo_dependencies():
                 continue;
             }
             writeln!(output, "{}", self.render_archive(node, package))?;
+            have_at_least_one_archive = true
+        }
+
+        if !have_at_least_one_archive {
+            // Make sure the output is still valid if there are no archives to render.
+            writeln!(output, "    pass")?;
         }
         Ok(())
     }
