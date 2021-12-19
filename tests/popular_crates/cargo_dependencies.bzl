@@ -15,13 +15,12 @@ def cargo_dependencies():
         strip_prefix = "actix-codec-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_codec",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bitflags_1.2.1//:bitflags", "@crates_io_bytes_0.5.6//:bytes", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_sink_0.3.5//:futures_sink", "@crates_io_log_0.4.11//:log", "@crates_io_tokio_0.2.22//:tokio", "@crates_io_tokio_util_0.2.0//:tokio_util"],
     proc_macro_deps = [],
     edition = "2018",
@@ -40,13 +39,12 @@ rust_library(
         strip_prefix = "actix-connect-1.0.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_connect",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_codec_0.2.0//:actix_codec", "@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_actix_utils_1.0.6//:actix_utils", "@crates_io_either_1.6.0//:either", "@crates_io_futures_0.3.5//:futures", "@crates_io_http_0.2.1//:http", "@crates_io_log_0.4.11//:log", "@crates_io_trust_dns_proto_0.18.0-alpha.2//:trust_dns_proto", "@crates_io_trust_dns_resolver_0.18.0-alpha.2//:trust_dns_resolver"],
     proc_macro_deps = ["@crates_io_derive_more_0.99.9//:derive_more"],
     edition = "2018",
@@ -65,13 +63,12 @@ rust_library(
         strip_prefix = "actix-http-1.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_http",
     aliases = {"@crates_io_failure_0.1.8//:failure": "fail_ure"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_codec_0.2.0//:actix_codec", "@crates_io_actix_connect_1.0.2//:actix_connect", "@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_actix_threadpool_0.3.3//:actix_threadpool", "@crates_io_actix_utils_1.0.6//:actix_utils", "@crates_io_base64_0.11.0//:base64", "@crates_io_bitflags_1.2.1//:bitflags", "@crates_io_brotli2_0.3.2//:brotli2", "@crates_io_bytes_0.5.6//:bytes", "@crates_io_chrono_0.4.15//:chrono", "@crates_io_copyless_0.1.5//:copyless", "@crates_io_either_1.6.0//:either", "@crates_io_encoding_rs_0.8.23//:encoding_rs", "@crates_io_failure_0.1.8//:failure", "@crates_io_flate2_1.0.17//:flate2", "@crates_io_futures_channel_0.3.5//:futures_channel", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_util_0.3.5//:futures_util", "@crates_io_fxhash_0.2.1//:fxhash", "@crates_io_h2_0.2.6//:h2", "@crates_io_http_0.2.1//:http", "@crates_io_httparse_1.3.4//:httparse", "@crates_io_indexmap_1.5.1//:indexmap", "@crates_io_language_tags_0.2.2//:language_tags", "@crates_io_lazy_static_1.4.0//:lazy_static", "@crates_io_log_0.4.11//:log", "@crates_io_mime_0.3.16//:mime", "@crates_io_percent_encoding_2.1.0//:percent_encoding", "@crates_io_pin_project_0.4.23//:pin_project", "@crates_io_rand_0.7.3//:rand", "@crates_io_regex_1.3.9//:regex", "@crates_io_serde_1.0.115//:serde", "@crates_io_serde_json_1.0.57//:serde_json", "@crates_io_serde_urlencoded_0.6.1//:serde_urlencoded", "@crates_io_sha1_0.6.0//:sha1", "@crates_io_slab_0.4.2//:slab", "@crates_io_time_0.1.43//:time"],
     proc_macro_deps = ["@crates_io_derive_more_0.99.9//:derive_more"],
     edition = "2018",
@@ -90,13 +87,12 @@ rust_library(
         strip_prefix = "actix-macros-0.1.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "actix_macros",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2018",
@@ -115,13 +111,12 @@ rust_library(
         strip_prefix = "actix-router-0.2.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_router",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bytestring_0.1.5//:bytestring", "@crates_io_http_0.2.1//:http", "@crates_io_log_0.4.11//:log", "@crates_io_regex_1.3.9//:regex", "@crates_io_serde_1.0.115//:serde"],
     proc_macro_deps = [],
     edition = "2018",
@@ -140,13 +135,12 @@ rust_library(
         strip_prefix = "actix-rt-1.1.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_rt",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_threadpool_0.3.3//:actix_threadpool", "@crates_io_copyless_0.1.5//:copyless", "@crates_io_futures_channel_0.3.5//:futures_channel", "@crates_io_futures_util_0.3.5//:futures_util", "@crates_io_smallvec_1.4.2//:smallvec", "@crates_io_tokio_0.2.22//:tokio"],
     proc_macro_deps = ["@crates_io_actix_macros_0.1.2//:actix_macros"],
     edition = "2018",
@@ -165,13 +159,12 @@ rust_library(
         strip_prefix = "actix-server-1.0.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_server",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_codec_0.2.0//:actix_codec", "@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_actix_utils_1.0.6//:actix_utils", "@crates_io_futures_channel_0.3.5//:futures_channel", "@crates_io_futures_util_0.3.5//:futures_util", "@crates_io_log_0.4.11//:log", "@crates_io_mio_0.6.22//:mio", "@crates_io_mio_uds_0.6.8//:mio_uds", "@crates_io_num_cpus_1.13.0//:num_cpus", "@crates_io_slab_0.4.2//:slab", "@crates_io_socket2_0.3.12//:socket2"],
     proc_macro_deps = [],
     edition = "2018",
@@ -190,13 +183,12 @@ rust_library(
         strip_prefix = "actix-service-1.0.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_service",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_futures_util_0.3.5//:futures_util", "@crates_io_pin_project_0.4.23//:pin_project"],
     proc_macro_deps = [],
     edition = "2018",
@@ -215,13 +207,12 @@ rust_library(
         strip_prefix = "actix-testing-1.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_testing",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_server_1.0.3//:actix_server", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_log_0.4.11//:log", "@crates_io_socket2_0.3.12//:socket2"],
     proc_macro_deps = ["@crates_io_actix_macros_0.1.2//:actix_macros"],
     edition = "2018",
@@ -240,13 +231,12 @@ rust_library(
         strip_prefix = "actix-threadpool-0.3.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_threadpool",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_futures_channel_0.3.5//:futures_channel", "@crates_io_lazy_static_1.4.0//:lazy_static", "@crates_io_log_0.4.11//:log", "@crates_io_num_cpus_1.13.0//:num_cpus", "@crates_io_parking_lot_0.11.0//:parking_lot", "@crates_io_threadpool_1.8.1//:threadpool"],
     proc_macro_deps = ["@crates_io_derive_more_0.99.9//:derive_more"],
     edition = "2018",
@@ -265,13 +255,12 @@ rust_library(
         strip_prefix = "actix-tls-1.0.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_tls",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_codec_0.2.0//:actix_codec", "@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_actix_utils_1.0.6//:actix_utils", "@crates_io_either_1.6.0//:either", "@crates_io_futures_0.3.5//:futures", "@crates_io_log_0.4.11//:log"],
     proc_macro_deps = ["@crates_io_derive_more_0.99.9//:derive_more"],
     edition = "2018",
@@ -290,13 +279,12 @@ rust_library(
         strip_prefix = "actix-utils-1.0.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_utils",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_codec_0.2.0//:actix_codec", "@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_bitflags_1.2.1//:bitflags", "@crates_io_bytes_0.5.6//:bytes", "@crates_io_either_1.6.0//:either", "@crates_io_futures_0.3.5//:futures", "@crates_io_log_0.4.11//:log", "@crates_io_pin_project_0.4.23//:pin_project", "@crates_io_slab_0.4.2//:slab"],
     proc_macro_deps = [],
     edition = "2018",
@@ -315,13 +303,12 @@ rust_library(
         strip_prefix = "actix-web-2.0.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "actix_web",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_codec_0.2.0//:actix_codec", "@crates_io_actix_http_1.0.1//:actix_http", "@crates_io_actix_router_0.2.4//:actix_router", "@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_server_1.0.3//:actix_server", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_actix_testing_1.0.1//:actix_testing", "@crates_io_actix_threadpool_0.3.3//:actix_threadpool", "@crates_io_actix_tls_1.0.0//:actix_tls", "@crates_io_actix_utils_1.0.6//:actix_utils", "@crates_io_awc_1.0.1//:awc", "@crates_io_bytes_0.5.6//:bytes", "@crates_io_encoding_rs_0.8.23//:encoding_rs", "@crates_io_futures_0.3.5//:futures", "@crates_io_fxhash_0.2.1//:fxhash", "@crates_io_log_0.4.11//:log", "@crates_io_mime_0.3.16//:mime", "@crates_io_net2_0.2.34//:net2", "@crates_io_pin_project_0.4.23//:pin_project", "@crates_io_regex_1.3.9//:regex", "@crates_io_serde_1.0.115//:serde", "@crates_io_serde_json_1.0.57//:serde_json", "@crates_io_serde_urlencoded_0.6.1//:serde_urlencoded", "@crates_io_time_0.1.43//:time", "@crates_io_url_2.1.1//:url"],
     proc_macro_deps = ["@crates_io_actix_macros_0.1.2//:actix_macros", "@crates_io_actix_web_codegen_0.2.2//:actix_web_codegen", "@crates_io_derive_more_0.99.9//:derive_more"],
     edition = "2018",
@@ -340,13 +327,12 @@ rust_library(
         strip_prefix = "actix-web-codegen-0.2.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "actix_web_codegen",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2018",
@@ -365,13 +351,12 @@ rust_library(
         strip_prefix = "addr2line-0.13.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "addr2line",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_gimli_0.22.0//:gimli"],
     proc_macro_deps = [],
     edition = "2015",
@@ -390,13 +375,12 @@ rust_library(
         strip_prefix = "adler-0.2.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "adler",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -415,13 +399,12 @@ rust_library(
         strip_prefix = "aho-corasick-0.7.13",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "aho_corasick",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_memchr_2.3.3//:memchr"],
     proc_macro_deps = [],
     edition = "2015",
@@ -440,13 +423,12 @@ rust_library(
         strip_prefix = "arc-swap-0.4.7",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "arc_swap",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -465,13 +447,12 @@ rust_library(
         strip_prefix = "async-trait-0.1.38",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "async_trait",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2018",
@@ -490,13 +471,12 @@ rust_library(
         strip_prefix = "autocfg-1.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "autocfg",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -515,13 +495,12 @@ rust_library(
         strip_prefix = "awc-1.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "awc",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_actix_codec_0.2.0//:actix_codec", "@crates_io_actix_http_1.0.1//:actix_http", "@crates_io_actix_rt_1.1.1//:actix_rt", "@crates_io_actix_service_1.0.6//:actix_service", "@crates_io_base64_0.11.0//:base64", "@crates_io_bytes_0.5.6//:bytes", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_log_0.4.11//:log", "@crates_io_mime_0.3.16//:mime", "@crates_io_percent_encoding_2.1.0//:percent_encoding", "@crates_io_rand_0.7.3//:rand", "@crates_io_serde_1.0.115//:serde", "@crates_io_serde_json_1.0.57//:serde_json", "@crates_io_serde_urlencoded_0.6.1//:serde_urlencoded"],
     proc_macro_deps = ["@crates_io_derive_more_0.99.9//:derive_more"],
     edition = "2018",
@@ -540,13 +519,12 @@ rust_library(
         strip_prefix = "backtrace-0.3.50",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "backtrace",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_addr2line_0.13.0//:addr2line", "@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_libc_0.2.76//:libc", "@crates_io_miniz_oxide_0.4.1//:miniz_oxide", "@crates_io_object_0.20.0//:object", "@crates_io_rustc_demangle_0.1.16//:rustc_demangle"],
     proc_macro_deps = [],
     edition = "2018",
@@ -565,13 +543,12 @@ rust_library(
         strip_prefix = "base64-0.11.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "base64",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -590,13 +567,12 @@ rust_library(
         strip_prefix = "bitflags-1.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "bitflags",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -615,13 +591,12 @@ rust_library(
         strip_prefix = "brotli-sys-0.3.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "brotli_sys",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_libc_0.2.76//:libc"],
     proc_macro_deps = [],
     edition = "2015",
@@ -640,13 +615,12 @@ rust_library(
         strip_prefix = "brotli2-0.3.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "brotli2",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_brotli_sys_0.3.2//:brotli_sys", "@crates_io_libc_0.2.76//:libc"],
     proc_macro_deps = [],
     edition = "2015",
@@ -665,13 +639,12 @@ rust_library(
         strip_prefix = "byteorder-1.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "byteorder",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -690,13 +663,12 @@ rust_library(
         strip_prefix = "bytes-0.5.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "bytes",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -715,13 +687,12 @@ rust_library(
         strip_prefix = "bytestring-0.1.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "bytestring",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bytes_0.5.6//:bytes"],
     proc_macro_deps = [],
     edition = "2018",
@@ -740,13 +711,12 @@ rust_library(
         strip_prefix = "cc-1.0.59",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cc",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -765,13 +735,12 @@ rust_library(
         strip_prefix = "cfg-if-0.1.10",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cfg_if",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -790,13 +759,12 @@ rust_library(
         strip_prefix = "chrono-0.4.15",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "chrono",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_num_integer_0.1.43//:num_integer", "@crates_io_num_traits_0.2.12//:num_traits", "@crates_io_time_0.1.43//:time"],
     proc_macro_deps = [],
     edition = "2015",
@@ -815,13 +783,12 @@ rust_library(
         strip_prefix = "cloudabi-0.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cloudabi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bitflags_1.2.1//:bitflags"],
     proc_macro_deps = [],
     edition = "2018",
@@ -840,13 +807,12 @@ rust_library(
         strip_prefix = "copyless-0.1.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "copyless",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -865,13 +831,12 @@ rust_library(
         strip_prefix = "crc32fast-1.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "crc32fast",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"],
     proc_macro_deps = [],
     edition = "2015",
@@ -890,13 +855,12 @@ rust_library(
         strip_prefix = "derive_more-0.99.9",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "derive_more",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2018",
@@ -915,13 +879,12 @@ rust_library(
         strip_prefix = "diesel-1.4.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "diesel",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_byteorder_1.3.4//:byteorder"],
     proc_macro_deps = ["@crates_io_diesel_derives_1.4.1//:diesel_derives"],
     edition = "2015",
@@ -940,13 +903,12 @@ rust_library(
         strip_prefix = "diesel_derives-1.4.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "diesel_derives",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2015",
@@ -965,13 +927,12 @@ rust_library(
         strip_prefix = "dtoa-0.4.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "dtoa",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -990,13 +951,12 @@ rust_library(
         strip_prefix = "either-1.6.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "either",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1015,13 +975,12 @@ rust_library(
         strip_prefix = "encoding_rs-0.8.23",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "encoding_rs",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"],
     proc_macro_deps = [],
     edition = "2015",
@@ -1040,13 +999,12 @@ rust_library(
         strip_prefix = "enum-as-inner-0.3.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "enum_as_inner",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_heck_0.3.1//:heck", "@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1065,13 +1023,12 @@ rust_library(
         strip_prefix = "failure-0.1.8",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "failure",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_backtrace_0.3.50//:backtrace"],
     proc_macro_deps = ["@crates_io_failure_derive_0.1.8//:failure_derive"],
     edition = "2015",
@@ -1090,13 +1047,12 @@ rust_library(
         strip_prefix = "failure_derive-0.1.8",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "failure_derive",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn", "@crates_io_synstructure_0.12.4//:synstructure"],
     proc_macro_deps = [],
     edition = "2015",
@@ -1115,13 +1071,12 @@ rust_library(
         strip_prefix = "flate2-1.0.17",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "flate2",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_crc32fast_1.2.0//:crc32fast", "@crates_io_libc_0.2.76//:libc", "@crates_io_miniz_oxide_0.4.1//:miniz_oxide"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1140,13 +1095,12 @@ rust_library(
         strip_prefix = "fnv-1.0.7",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "fnv",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1165,13 +1119,12 @@ rust_library(
         strip_prefix = "fuchsia-zircon-0.3.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "fuchsia_zircon",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bitflags_1.2.1//:bitflags", "@crates_io_fuchsia_zircon_sys_0.3.3//:fuchsia_zircon_sys"],
     proc_macro_deps = [],
     edition = "2015",
@@ -1190,13 +1143,12 @@ rust_library(
         strip_prefix = "fuchsia-zircon-sys-0.3.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "fuchsia_zircon_sys",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1215,13 +1167,12 @@ rust_library(
         strip_prefix = "futures-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_futures_channel_0.3.5//:futures_channel", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_executor_0.3.5//:futures_executor", "@crates_io_futures_io_0.3.5//:futures_io", "@crates_io_futures_sink_0.3.5//:futures_sink", "@crates_io_futures_task_0.3.5//:futures_task", "@crates_io_futures_util_0.3.5//:futures_util"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1240,13 +1191,12 @@ rust_library(
         strip_prefix = "futures-channel-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures_channel",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_sink_0.3.5//:futures_sink"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1265,13 +1215,12 @@ rust_library(
         strip_prefix = "futures-core-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures_core",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -1290,13 +1239,12 @@ rust_library(
         strip_prefix = "futures-executor-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures_executor",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_task_0.3.5//:futures_task", "@crates_io_futures_util_0.3.5//:futures_util"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1315,13 +1263,12 @@ rust_library(
         strip_prefix = "futures-io-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures_io",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -1340,13 +1287,12 @@ rust_library(
         strip_prefix = "futures-macro-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "futures_macro",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = ["@crates_io_proc_macro_hack_0.5.18//:proc_macro_hack"],
     edition = "2018",
@@ -1365,13 +1311,12 @@ rust_library(
         strip_prefix = "futures-sink-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures_sink",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -1390,13 +1335,12 @@ rust_library(
         strip_prefix = "futures-task-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures_task",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_once_cell_1.4.1//:once_cell"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1415,13 +1359,12 @@ rust_library(
         strip_prefix = "futures-util-0.3.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "futures_util",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_futures_channel_0.3.5//:futures_channel", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_io_0.3.5//:futures_io", "@crates_io_futures_sink_0.3.5//:futures_sink", "@crates_io_futures_task_0.3.5//:futures_task", "@crates_io_memchr_2.3.3//:memchr", "@crates_io_pin_project_0.4.23//:pin_project", "@crates_io_pin_utils_0.1.0//:pin_utils", "@crates_io_proc_macro_nested_0.1.6//:proc_macro_nested", "@crates_io_slab_0.4.2//:slab"],
     proc_macro_deps = ["@crates_io_futures_macro_0.3.5//:futures_macro", "@crates_io_proc_macro_hack_0.5.18//:proc_macro_hack"],
     edition = "2018",
@@ -1440,13 +1383,12 @@ rust_library(
         strip_prefix = "fxhash-0.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "fxhash",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_byteorder_1.3.4//:byteorder"],
     proc_macro_deps = [],
     edition = "2015",
@@ -1465,13 +1407,12 @@ rust_library(
         strip_prefix = "getrandom-0.1.14",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "getrandom",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2018",
@@ -1490,13 +1431,12 @@ rust_library(
         strip_prefix = "gimli-0.22.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "gimli",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -1515,13 +1455,12 @@ rust_library(
         strip_prefix = "h2-0.2.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "h2",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bytes_0.5.6//:bytes", "@crates_io_fnv_1.0.7//:fnv", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_sink_0.3.5//:futures_sink", "@crates_io_futures_util_0.3.5//:futures_util", "@crates_io_http_0.2.1//:http", "@crates_io_indexmap_1.5.1//:indexmap", "@crates_io_slab_0.4.2//:slab", "@crates_io_tokio_0.2.22//:tokio", "@crates_io_tokio_util_0.3.1//:tokio_util", "@crates_io_tracing_0.1.19//:tracing"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1540,13 +1479,12 @@ rust_library(
         strip_prefix = "hashbrown-0.8.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "hashbrown",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -1565,13 +1503,12 @@ rust_library(
         strip_prefix = "heck-0.3.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "heck",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_unicode_segmentation_1.6.0//:unicode_segmentation"],
     proc_macro_deps = [],
     edition = "2015",
@@ -1590,13 +1527,12 @@ rust_library(
         strip_prefix = "hermit-abi-0.1.15",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "hermit_abi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_libc_0.2.76//:libc"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1615,13 +1551,12 @@ rust_library(
         strip_prefix = "hostname-0.3.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "hostname",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_match_cfg_0.1.0//:match_cfg"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2015",
@@ -1640,13 +1575,12 @@ rust_library(
         strip_prefix = "http-0.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "http",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bytes_0.5.6//:bytes", "@crates_io_fnv_1.0.7//:fnv", "@crates_io_itoa_0.4.6//:itoa"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1665,13 +1599,12 @@ rust_library(
         strip_prefix = "httparse-1.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "httparse",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1690,13 +1623,12 @@ rust_library(
         strip_prefix = "idna-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "idna",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_matches_0.1.8//:matches", "@crates_io_unicode_bidi_0.3.4//:unicode_bidi", "@crates_io_unicode_normalization_0.1.13//:unicode_normalization"],
     proc_macro_deps = [],
     edition = "2015",
@@ -1715,13 +1647,12 @@ rust_library(
         strip_prefix = "indexmap-1.5.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "indexmap",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_hashbrown_0.8.2//:hashbrown"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1740,13 +1671,12 @@ rust_library(
         strip_prefix = "instant-0.1.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "instant",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -1765,13 +1695,12 @@ rust_library(
         strip_prefix = "iovec-0.1.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "iovec",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2015",
@@ -1790,13 +1719,12 @@ rust_library(
         strip_prefix = "ipconfig-0.2.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "ipconfig",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -1815,13 +1743,12 @@ rust_library(
         strip_prefix = "itoa-0.4.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "itoa",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1840,13 +1767,12 @@ rust_library(
         strip_prefix = "kernel32-sys-0.2.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "kernel32_sys",
     aliases = {"@crates_io_winapi_build_0.1.1//:winapi_build": "build"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_winapi_0.2.8//:winapi"],
     proc_macro_deps = [],
     edition = "2015",
@@ -1865,13 +1791,12 @@ rust_library(
         strip_prefix = "language-tags-0.2.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "language_tags",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1890,13 +1815,12 @@ rust_library(
         strip_prefix = "lazy_static-1.4.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "lazy_static",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1915,13 +1839,12 @@ rust_library(
         strip_prefix = "libc-0.2.76",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "libc",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1940,13 +1863,12 @@ rust_library(
         strip_prefix = "linked-hash-map-0.5.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "linked_hash_map",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -1965,13 +1887,12 @@ rust_library(
         strip_prefix = "lock_api-0.4.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "lock_api",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_scopeguard_1.1.0//:scopeguard"],
     proc_macro_deps = [],
     edition = "2018",
@@ -1990,13 +1911,12 @@ rust_library(
         strip_prefix = "log-0.4.11",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "log",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2015,13 +1935,12 @@ rust_library(
         strip_prefix = "lru-cache-0.1.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "lru_cache",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_linked_hash_map_0.5.3//:linked_hash_map"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2040,13 +1959,12 @@ rust_library(
         strip_prefix = "match_cfg-0.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "match_cfg",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2065,13 +1983,12 @@ rust_library(
         strip_prefix = "matches-0.1.8",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "matches",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2090,13 +2007,12 @@ rust_library(
         strip_prefix = "memchr-2.3.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "memchr",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2115,13 +2031,12 @@ rust_library(
         strip_prefix = "mime-0.3.16",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "mime",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2140,13 +2055,12 @@ rust_library(
         strip_prefix = "miniz_oxide-0.4.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "miniz_oxide",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_adler_0.2.3//:adler"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2165,13 +2079,12 @@ rust_library(
         strip_prefix = "mio-0.6.22",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "mio",
     aliases = {"@crates_io_kernel32_sys_0.2.2//:kernel32_sys": "kernel32"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_iovec_0.1.4//:iovec", "@crates_io_log_0.4.11//:log", "@crates_io_net2_0.2.34//:net2", "@crates_io_slab_0.4.2//:slab"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2015",
@@ -2190,13 +2103,12 @@ rust_library(
         strip_prefix = "mio-uds-0.6.8",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "mio_uds",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_iovec_0.1.4//:iovec", "@crates_io_libc_0.2.76//:libc", "@crates_io_mio_0.6.22//:mio"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_iovec_0.1.4//:iovec", "@crates_io_libc_0.2.76//:libc", "@crates_io_mio_0.6.22//:mio"]}),
     proc_macro_deps = [],
     edition = "2015",
@@ -2215,13 +2127,12 @@ rust_library(
         strip_prefix = "miow-0.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "miow",
     aliases = {"@crates_io_kernel32_sys_0.2.2//:kernel32_sys": "kernel32", "@crates_io_ws2_32_sys_0.2.1//:ws2_32_sys": "ws2_32"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_kernel32_sys_0.2.2//:kernel32_sys", "@crates_io_net2_0.2.34//:net2", "@crates_io_winapi_0.2.8//:winapi", "@crates_io_ws2_32_sys_0.2.1//:ws2_32_sys"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2240,13 +2151,12 @@ rust_library(
         strip_prefix = "net2-0.2.34",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "net2",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2015",
@@ -2265,13 +2175,12 @@ rust_library(
         strip_prefix = "num-integer-0.1.43",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "num_integer",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_num_traits_0.2.12//:num_traits"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2290,13 +2199,12 @@ rust_library(
         strip_prefix = "num-traits-0.2.12",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "num_traits",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2315,13 +2223,12 @@ rust_library(
         strip_prefix = "num_cpus-1.13.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "num_cpus",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_libc_0.2.76//:libc"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2340,13 +2247,12 @@ rust_library(
         strip_prefix = "object-0.20.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "object",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -2365,13 +2271,12 @@ rust_library(
         strip_prefix = "once_cell-1.4.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "once_cell",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -2390,13 +2295,12 @@ rust_library(
         strip_prefix = "parking_lot-0.11.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "parking_lot",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_instant_0.1.6//:instant", "@crates_io_lock_api_0.4.1//:lock_api", "@crates_io_parking_lot_core_0.8.0//:parking_lot_core"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2415,13 +2319,12 @@ rust_library(
         strip_prefix = "parking_lot_core-0.8.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "parking_lot_core",
     aliases = {"@crates_io_redox_syscall_0.1.57//:redox_syscall": "syscall"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_instant_0.1.6//:instant", "@crates_io_smallvec_1.4.2//:smallvec"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2018",
@@ -2440,13 +2343,12 @@ rust_library(
         strip_prefix = "percent-encoding-2.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "percent_encoding",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2465,13 +2367,12 @@ rust_library(
         strip_prefix = "pin-project-0.4.23",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "pin_project",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = ["@crates_io_pin_project_internal_0.4.23//:pin_project_internal"],
     edition = "2018",
@@ -2490,13 +2391,12 @@ rust_library(
         strip_prefix = "pin-project-internal-0.4.23",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "pin_project_internal",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2515,13 +2415,12 @@ rust_library(
         strip_prefix = "pin-project-lite-0.1.7",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "pin_project_lite",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -2540,13 +2439,12 @@ rust_library(
         strip_prefix = "pin-utils-0.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "pin_utils",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -2565,13 +2463,12 @@ rust_library(
         strip_prefix = "ppv-lite86-0.2.9",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "ppv_lite86",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -2590,13 +2487,12 @@ rust_library(
         strip_prefix = "proc-macro-hack-0.5.18",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "proc_macro_hack",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -2615,7 +2511,7 @@ rust_library(
         strip_prefix = "proc-macro-nested-0.1.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 
@@ -2629,7 +2525,6 @@ rust_library(
     name = "proc_macro_nested",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [":build_script"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2648,13 +2543,12 @@ rust_library(
         strip_prefix = "proc-macro2-1.0.19",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "proc_macro2",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_unicode_xid_0.2.1//:unicode_xid"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2673,13 +2567,12 @@ rust_library(
         strip_prefix = "quick-error-1.2.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "quick_error",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2698,13 +2591,12 @@ rust_library(
         strip_prefix = "quote-1.0.7",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "quote",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2723,13 +2615,12 @@ rust_library(
         strip_prefix = "rand-0.7.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "rand",
     aliases = {"@crates_io_getrandom_0.1.14//:getrandom": "getrandom_package"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_getrandom_0.1.14//:getrandom", "@crates_io_rand_core_0.5.1//:rand_core"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_rand_chacha_0.2.2//:rand_chacha"]}),
     proc_macro_deps = [],
     edition = "2018",
@@ -2748,13 +2639,12 @@ rust_library(
         strip_prefix = "rand_chacha-0.2.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "rand_chacha",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_ppv_lite86_0.2.9//:ppv_lite86", "@crates_io_rand_core_0.5.1//:rand_core"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2773,13 +2663,12 @@ rust_library(
         strip_prefix = "rand_core-0.5.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "rand_core",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_getrandom_0.1.14//:getrandom"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2798,13 +2687,12 @@ rust_library(
         strip_prefix = "rand_hc-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "rand_hc",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_rand_core_0.5.1//:rand_core"],
     proc_macro_deps = [],
     edition = "2018",
@@ -2823,13 +2711,12 @@ rust_library(
         strip_prefix = "redox_syscall-0.1.57",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "redox_syscall",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2848,13 +2735,12 @@ rust_library(
         strip_prefix = "regex-1.3.9",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "regex",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_aho_corasick_0.7.13//:aho_corasick", "@crates_io_memchr_2.3.3//:memchr", "@crates_io_regex_syntax_0.6.18//:regex_syntax", "@crates_io_thread_local_1.0.1//:thread_local"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2873,13 +2759,12 @@ rust_library(
         strip_prefix = "regex-syntax-0.6.18",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "regex_syntax",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2898,13 +2783,12 @@ rust_library(
         strip_prefix = "resolv-conf-0.6.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "resolv_conf",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_hostname_0.3.1//:hostname", "@crates_io_quick_error_1.2.3//:quick_error"],
     proc_macro_deps = [],
     edition = "2015",
@@ -2923,13 +2807,12 @@ rust_library(
         strip_prefix = "rustc-demangle-0.1.16",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "rustc_demangle",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2948,13 +2831,12 @@ rust_library(
         strip_prefix = "ryu-1.0.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "ryu",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -2973,13 +2855,12 @@ rust_library(
         strip_prefix = "scopeguard-1.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "scopeguard",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -2998,13 +2879,12 @@ rust_library(
         strip_prefix = "serde-1.0.115",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "serde",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = ["@crates_io_serde_derive_1.0.115//:serde_derive"],
     edition = "2015",
@@ -3023,13 +2903,12 @@ rust_library(
         strip_prefix = "serde_derive-1.0.115",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "serde_derive",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3048,13 +2927,12 @@ rust_library(
         strip_prefix = "serde_json-1.0.57",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "serde_json",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_itoa_0.4.6//:itoa", "@crates_io_ryu_1.0.5//:ryu", "@crates_io_serde_1.0.115//:serde"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3073,13 +2951,12 @@ rust_library(
         strip_prefix = "serde_urlencoded-0.6.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "serde_urlencoded",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_dtoa_0.4.6//:dtoa", "@crates_io_itoa_0.4.6//:itoa", "@crates_io_serde_1.0.115//:serde", "@crates_io_url_2.1.1//:url"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3098,13 +2975,12 @@ rust_library(
         strip_prefix = "sha1-0.6.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "sha1",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3123,13 +2999,12 @@ rust_library(
         strip_prefix = "signal-hook-registry-1.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "signal_hook_registry",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_arc_swap_0.4.7//:arc_swap", "@crates_io_libc_0.2.76//:libc"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3148,13 +3023,12 @@ rust_library(
         strip_prefix = "slab-0.4.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "slab",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3173,13 +3047,12 @@ rust_library(
         strip_prefix = "smallvec-1.4.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "smallvec",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -3198,13 +3071,12 @@ rust_library(
         strip_prefix = "socket2-0.3.12",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "socket2",
     aliases = {"@crates_io_redox_syscall_0.1.57//:redox_syscall": "syscall"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_libc_0.2.76//:libc"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_libc_0.2.76//:libc"]}),
     proc_macro_deps = [],
     edition = "2018",
@@ -3223,13 +3095,12 @@ rust_library(
         strip_prefix = "syn-1.0.39",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "syn",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_unicode_xid_0.2.1//:unicode_xid"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3248,13 +3119,12 @@ rust_library(
         strip_prefix = "synstructure-0.12.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "synstructure",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_proc_macro2_1.0.19//:proc_macro2", "@crates_io_quote_1.0.7//:quote", "@crates_io_syn_1.0.39//:syn", "@crates_io_unicode_xid_0.2.1//:unicode_xid"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3273,13 +3143,12 @@ rust_library(
         strip_prefix = "thread_local-1.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "thread_local",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_lazy_static_1.4.0//:lazy_static"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3298,13 +3167,12 @@ rust_library(
         strip_prefix = "threadpool-1.8.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "threadpool",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_num_cpus_1.13.0//:num_cpus"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3323,13 +3191,12 @@ rust_library(
         strip_prefix = "time-0.1.43",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "time",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_libc_0.2.76//:libc"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3348,13 +3215,12 @@ rust_library(
         strip_prefix = "tinyvec-0.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "tinyvec",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -3373,13 +3239,12 @@ rust_library(
         strip_prefix = "tokio-0.2.22",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "tokio",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bytes_0.5.6//:bytes", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_iovec_0.1.4//:iovec", "@crates_io_lazy_static_1.4.0//:lazy_static", "@crates_io_memchr_2.3.3//:memchr", "@crates_io_mio_0.6.22//:mio", "@crates_io_pin_project_lite_0.1.7//:pin_project_lite", "@crates_io_slab_0.4.2//:slab"] + select({"//conditions:default": [], "@rules_rust//rust/platform:x86_64-apple-darwin": ["@crates_io_libc_0.2.76//:libc", "@crates_io_mio_uds_0.6.8//:mio_uds", "@crates_io_signal_hook_registry_1.2.1//:signal_hook_registry"], "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": ["@crates_io_libc_0.2.76//:libc", "@crates_io_mio_uds_0.6.8//:mio_uds", "@crates_io_signal_hook_registry_1.2.1//:signal_hook_registry"]}),
     proc_macro_deps = [],
     edition = "2018",
@@ -3398,13 +3263,12 @@ rust_library(
         strip_prefix = "tokio-util-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "tokio_util",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bytes_0.5.6//:bytes", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_sink_0.3.5//:futures_sink", "@crates_io_log_0.4.11//:log", "@crates_io_pin_project_lite_0.1.7//:pin_project_lite", "@crates_io_tokio_0.2.22//:tokio"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3423,13 +3287,12 @@ rust_library(
         strip_prefix = "tokio-util-0.3.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "tokio_util",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_bytes_0.5.6//:bytes", "@crates_io_futures_core_0.3.5//:futures_core", "@crates_io_futures_sink_0.3.5//:futures_sink", "@crates_io_log_0.4.11//:log", "@crates_io_pin_project_lite_0.1.7//:pin_project_lite", "@crates_io_tokio_0.2.22//:tokio"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3448,13 +3311,12 @@ rust_library(
         strip_prefix = "tracing-0.1.19",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "tracing",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_log_0.4.11//:log", "@crates_io_tracing_core_0.1.14//:tracing_core"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3473,13 +3335,12 @@ rust_library(
         strip_prefix = "tracing-core-0.1.14",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "tracing_core",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_lazy_static_1.4.0//:lazy_static"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3498,13 +3359,12 @@ rust_library(
         strip_prefix = "trust-dns-proto-0.18.0-alpha.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "trust_dns_proto",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_failure_0.1.8//:failure", "@crates_io_futures_0.3.5//:futures", "@crates_io_idna_0.2.0//:idna", "@crates_io_lazy_static_1.4.0//:lazy_static", "@crates_io_log_0.4.11//:log", "@crates_io_rand_0.7.3//:rand", "@crates_io_smallvec_1.4.2//:smallvec", "@crates_io_socket2_0.3.12//:socket2", "@crates_io_tokio_0.2.22//:tokio", "@crates_io_url_2.1.1//:url"],
     proc_macro_deps = ["@crates_io_async_trait_0.1.38//:async_trait", "@crates_io_enum_as_inner_0.3.3//:enum_as_inner"],
     edition = "2018",
@@ -3523,13 +3383,12 @@ rust_library(
         strip_prefix = "trust-dns-resolver-0.18.0-alpha.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "trust_dns_resolver",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_failure_0.1.8//:failure", "@crates_io_futures_0.3.5//:futures", "@crates_io_lazy_static_1.4.0//:lazy_static", "@crates_io_log_0.4.11//:log", "@crates_io_lru_cache_0.1.2//:lru_cache", "@crates_io_resolv_conf_0.6.3//:resolv_conf", "@crates_io_smallvec_1.4.2//:smallvec", "@crates_io_tokio_0.2.22//:tokio", "@crates_io_trust_dns_proto_0.18.0-alpha.2//:trust_dns_proto"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3548,13 +3407,12 @@ rust_library(
         strip_prefix = "unicode-bidi-0.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "unicode_bidi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_matches_0.1.8//:matches"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3573,13 +3431,12 @@ rust_library(
         strip_prefix = "unicode-normalization-0.1.13",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "unicode_normalization",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_tinyvec_0.3.4//:tinyvec"],
     proc_macro_deps = [],
     edition = "2018",
@@ -3598,13 +3455,12 @@ rust_library(
         strip_prefix = "unicode-segmentation-1.6.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "unicode_segmentation",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3623,13 +3479,12 @@ rust_library(
         strip_prefix = "unicode-xid-0.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "unicode_xid",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3648,13 +3503,12 @@ rust_library(
         strip_prefix = "url-2.1.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "url",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_idna_0.2.0//:idna", "@crates_io_matches_0.1.8//:matches", "@crates_io_percent_encoding_2.1.0//:percent_encoding"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3673,13 +3527,12 @@ rust_library(
         strip_prefix = "wasi-0.9.0+wasi-snapshot-preview1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "wasi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -3698,13 +3551,12 @@ rust_library(
         strip_prefix = "widestring-0.4.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "widestring",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3723,13 +3575,12 @@ rust_library(
         strip_prefix = "winapi-0.2.8",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "winapi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3748,13 +3599,12 @@ rust_library(
         strip_prefix = "winapi-0.3.9",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "winapi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3773,13 +3623,12 @@ rust_library(
         strip_prefix = "winapi-build-0.1.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "winapi_build",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3798,13 +3647,12 @@ rust_library(
         strip_prefix = "winapi-i686-pc-windows-gnu-0.4.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "winapi_i686_pc_windows_gnu",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3823,13 +3671,12 @@ rust_library(
         strip_prefix = "winapi-x86_64-pc-windows-gnu-0.4.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "winapi_x86_64_pc_windows_gnu",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -3848,13 +3695,12 @@ rust_library(
         strip_prefix = "winreg-0.6.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "winreg",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_winapi_0.3.9//:winapi"],
     proc_macro_deps = [],
     edition = "2015",
@@ -3873,13 +3719,12 @@ rust_library(
         strip_prefix = "ws2_32-sys-0.2.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "ws2_32_sys",
     aliases = {"@crates_io_winapi_build_0.1.1//:winapi_build": "build"},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_winapi_0.2.8//:winapi"],
     proc_macro_deps = [],
     edition = "2015",

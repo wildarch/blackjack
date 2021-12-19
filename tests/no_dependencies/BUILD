@@ -2,7 +2,7 @@ load("@blackjack//:blackjack.bzl", "blackjack")
 
 blackjack(name = "blackjack")
 
-load("@rules_rust//rust:rust.bzl", "rust_binary")
+load("@rules_rust//rust:defs.bzl", "rust_binary")
 
 rust_binary(
     name = "main",

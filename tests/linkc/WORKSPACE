@@ -2,11 +2,11 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "rules_rust",
-    sha256 = "e6d835ee673f388aa5b62dc23d82db8fc76497e93fa47d8a4afe97abaf09b10d",
-    strip_prefix = "rules_rust-f37b9d6a552e9412285e627f30cb124e709f4f7a",
+    sha256 = "cf2e82c56c73c3213bc2d94303aee88d7e44634ad1e1fe183befa85b17b5021d",
+    strip_prefix = "rules_rust-0e3593fc5d839e4a74523f07e885b761ee19e662",
     urls = [
-        # Master branch as of 2021-01-27
-        "https://github.com/bazelbuild/rules_rust/archive/f37b9d6a552e9412285e627f30cb124e709f4f7a.tar.gz",
+        # Master branch as of 2021-12-19
+        "https://github.com/bazelbuild/rules_rust/archive/0e3593fc5d839e4a74523f07e885b761ee19e662.tar.gz",
     ],
 )
 
@@ -20,24 +20,21 @@ local_repository(
 )
 
 load("@blackjack//:workspace.bzl", "blackjack_cargo")
+
 blackjack_cargo()
 
 load("//:cargo_dependencies.bzl", "cargo_dependencies")
+
 cargo_dependencies()
 
 http_archive(
     name = "libz_sys",
-    url = "https://crates.io/api/v1/crates/libz-sys/1.1.0/download",
-    sha256 = "af67924b8dd885cccea261866c8ce5b74d239d272e154053ff927dae839f5ae9",
-    strip_prefix = "libz-sys-1.1.0",
-    type = "tar.gz",
     build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "libz_sys",
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@zlib"],
     edition = "2015",
     crate_features = ["static"],
@@ -45,13 +42,14 @@ rust_library(
     visibility = ["//visibility:public"],
 )
     """,
+    sha256 = "af67924b8dd885cccea261866c8ce5b74d239d272e154053ff927dae839f5ae9",
+    strip_prefix = "libz-sys-1.1.0",
+    type = "tar.gz",
+    url = "https://crates.io/api/v1/crates/libz-sys/1.1.0/download",
 )
 
 http_archive(
     name = "zlib",
-    sha256 = "629380c90a77b964d896ed37163f5c3a34f6e6d897311f1df2a7016355c45eff",
-    strip_prefix = "zlib-1.2.11",
-    urls = ["https://github.com/madler/zlib/archive/v1.2.11.tar.gz"],
     build_file_content = """
 # Taken from https://github.com/protocolbuffers/protobuf/blob/master/third_party/zlib.BUILD
 licenses(["notice"])  # BSD/MIT-like license (for zlib)
@@ -116,4 +114,7 @@ cc_library(
     visibility = ["//visibility:public"],
 )
     """,
+    sha256 = "629380c90a77b964d896ed37163f5c3a34f6e6d897311f1df2a7016355c45eff",
+    strip_prefix = "zlib-1.2.11",
+    urls = ["https://github.com/madler/zlib/archive/v1.2.11.tar.gz"],
 )

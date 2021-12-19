@@ -2,7 +2,7 @@
 name = "blackjack"
 version = "0.1.0"
 authors = ["Daan de Graaf <daandegraaf9@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 cargo_metadata = "0.12"

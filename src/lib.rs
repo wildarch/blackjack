@@ -399,15 +399,18 @@ cargo_build_script(
         } else {
             "".to_string()
         };
+        let library_rule = match self.crate_type(package) {
+            CrateType::Lib => "rust_library",
+            CrateType::ProcMacro => "rust_proc_macro",
+        };
         format!(
             r#"
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "{library_rule}")
 {build_script}
-rust_library(
+{library_rule}(
     name = "{name}",
     aliases = {aliases:?},
     srcs = glob(["**/*.rs"]),
-    crate_type = "{crate_type}",
     deps = {deps},
     proc_macro_deps = {proc_macro_deps},
     edition = "{edition}",
@@ -416,10 +419,10 @@ rust_library(
     visibility = ["//visibility:public"],
 )
     "#,
+            library_rule = library_rule,
             build_script = build_script,
             name = sanitize_name(&package.name),
             aliases = crate_deps.aliases,
-            crate_type = target.crate_types[0],
             deps = crate_deps.normal_deps,
             proc_macro_deps = crate_deps.proc_macro_deps,
             edition = target.edition,

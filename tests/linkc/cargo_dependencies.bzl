@@ -15,13 +15,12 @@ def cargo_dependencies():
         strip_prefix = "adler-0.2.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "adler",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -40,13 +39,12 @@ rust_library(
         strip_prefix = "cc-1.0.59",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cc",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -65,13 +63,12 @@ rust_library(
         strip_prefix = "cfg-if-0.1.10",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cfg_if",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -90,13 +87,12 @@ rust_library(
         strip_prefix = "crc32fast-1.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "crc32fast",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if"],
     proc_macro_deps = [],
     edition = "2015",
@@ -115,13 +111,12 @@ rust_library(
         strip_prefix = "flate2-1.0.17",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "flate2",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_cfg_if_0.1.10//:cfg_if", "@crates_io_crc32fast_1.2.0//:crc32fast", "@crates_io_libc_0.2.76//:libc", "@libz_sys"],
     proc_macro_deps = [],
     edition = "2018",
@@ -140,13 +135,12 @@ rust_library(
         strip_prefix = "libc-0.2.76",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "libc",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -165,13 +159,12 @@ rust_library(
         strip_prefix = "libz-sys-1.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "libz_sys",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -190,13 +183,12 @@ rust_library(
         strip_prefix = "miniz_oxide-0.4.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "miniz_oxide",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@crates_io_adler_0.2.3//:adler"],
     proc_macro_deps = [],
     edition = "2018",
@@ -215,13 +207,12 @@ rust_library(
         strip_prefix = "pkg-config-0.3.18",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "pkg_config",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -240,13 +231,12 @@ rust_library(
         strip_prefix = "vcpkg-0.2.10",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "vcpkg",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",

@@ -2,11 +2,11 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "rules_rust",
-    sha256 = "e6d835ee673f388aa5b62dc23d82db8fc76497e93fa47d8a4afe97abaf09b10d",
-    strip_prefix = "rules_rust-f37b9d6a552e9412285e627f30cb124e709f4f7a",
+    sha256 = "cf2e82c56c73c3213bc2d94303aee88d7e44634ad1e1fe183befa85b17b5021d",
+    strip_prefix = "rules_rust-0e3593fc5d839e4a74523f07e885b761ee19e662",
     urls = [
-        # Master branch as of 2021-01-27
-        "https://github.com/bazelbuild/rules_rust/archive/f37b9d6a552e9412285e627f30cb124e709f4f7a.tar.gz",
+        # Master branch as of 2021-12-19
+        "https://github.com/bazelbuild/rules_rust/archive/0e3593fc5d839e4a74523f07e885b761ee19e662.tar.gz",
     ],
 )
 
@@ -20,7 +20,9 @@ local_repository(
 )
 
 load("@blackjack//:workspace.bzl", "blackjack_cargo")
+
 blackjack_cargo()
 
 load("//:cargo_dependencies.bzl", "cargo_dependencies")
+
 cargo_dependencies()

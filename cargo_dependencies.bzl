@@ -15,13 +15,12 @@ def cargo_dependencies():
         strip_prefix = "cargo-lock-6.0.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cargo_lock",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_semver_0.11.0//:semver", "@blackjack_crates_io_serde//:serde", "@blackjack_crates_io_toml_0.5.6//:toml", "@blackjack_crates_io_url_2.1.1//:url"],
     proc_macro_deps = [],
     edition = "2018",
@@ -40,13 +39,12 @@ rust_library(
         strip_prefix = "cargo-platform-0.1.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cargo_platform",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_serde//:serde"],
     proc_macro_deps = [],
     edition = "2018",
@@ -65,13 +63,12 @@ rust_library(
         strip_prefix = "cargo_metadata-0.12.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cargo_metadata",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_cargo_platform_0.1.1//:cargo_platform", "@blackjack_crates_io_semver_0.11.0//:semver", "@blackjack_crates_io_semver_parser_0.10.2//:semver_parser", "@blackjack_crates_io_serde//:serde", "@blackjack_crates_io_serde_json//:serde_json"],
     proc_macro_deps = [],
     edition = "2018",
@@ -90,13 +87,12 @@ rust_library(
         strip_prefix = "cfg-expr-0.7.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "cfg_expr",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_smallvec_1.6.1//:smallvec"],
     proc_macro_deps = [],
     edition = "2018",
@@ -115,13 +111,12 @@ rust_library(
         strip_prefix = "idna-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "idna",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_matches_0.1.8//:matches", "@blackjack_crates_io_unicode_bidi_0.3.4//:unicode_bidi", "@blackjack_crates_io_unicode_normalization_0.1.13//:unicode_normalization"],
     proc_macro_deps = [],
     edition = "2015",
@@ -140,13 +135,12 @@ rust_library(
         strip_prefix = "itoa-0.4.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "itoa",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -165,13 +159,12 @@ rust_library(
         strip_prefix = "matches-0.1.8",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "matches",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -190,13 +183,12 @@ rust_library(
         strip_prefix = "percent-encoding-2.1.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "percent_encoding",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -215,13 +207,12 @@ rust_library(
         strip_prefix = "pest-2.1.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "pest",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_ucd_trie_0.1.3//:ucd_trie"],
     proc_macro_deps = [],
     edition = "2015",
@@ -240,13 +231,12 @@ rust_library(
         strip_prefix = "proc-macro2-1.0.18",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "proc_macro2",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_unicode_xid_0.2.0//:unicode_xid"],
     proc_macro_deps = [],
     edition = "2018",
@@ -265,13 +255,12 @@ rust_library(
         strip_prefix = "quote-1.0.7",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "quote",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_proc_macro2_1.0.18//:proc_macro2"],
     proc_macro_deps = [],
     edition = "2018",
@@ -290,13 +279,12 @@ rust_library(
         strip_prefix = "ryu-1.0.5",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "ryu",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -315,13 +303,12 @@ rust_library(
         strip_prefix = "semver-0.11.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "semver",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_semver_parser_0.10.2//:semver_parser", "@blackjack_crates_io_serde//:serde"],
     proc_macro_deps = [],
     edition = "2015",
@@ -340,13 +327,12 @@ rust_library(
         strip_prefix = "semver-parser-0.10.2",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "semver_parser",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_pest_2.1.3//:pest"],
     proc_macro_deps = [],
     edition = "2018",
@@ -365,13 +351,12 @@ rust_library(
         strip_prefix = "serde-1.0.113",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "serde",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = ["@blackjack_crates_io_serde_derive_1.0.113//:serde_derive"],
     edition = "2015",
@@ -390,13 +375,12 @@ rust_library(
         strip_prefix = "serde_derive-1.0.113",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
-rust_library(
+rust_proc_macro(
     name = "serde_derive",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "proc-macro",
     deps = ["@blackjack_crates_io_proc_macro2_1.0.18//:proc_macro2", "@blackjack_crates_io_quote_1.0.7//:quote", "@blackjack_crates_io_syn_1.0.32//:syn"],
     proc_macro_deps = [],
     edition = "2015",
@@ -415,13 +399,12 @@ rust_library(
         strip_prefix = "serde_json-1.0.62",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "serde_json",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_itoa_0.4.6//:itoa", "@blackjack_crates_io_ryu_1.0.5//:ryu", "@blackjack_crates_io_serde//:serde"],
     proc_macro_deps = [],
     edition = "2018",
@@ -440,13 +423,12 @@ rust_library(
         strip_prefix = "smallvec-1.6.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "smallvec",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -465,13 +447,12 @@ rust_library(
         strip_prefix = "syn-1.0.32",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "syn",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_proc_macro2_1.0.18//:proc_macro2", "@blackjack_crates_io_quote_1.0.7//:quote", "@blackjack_crates_io_unicode_xid_0.2.0//:unicode_xid"],
     proc_macro_deps = [],
     edition = "2018",
@@ -490,13 +471,12 @@ rust_library(
         strip_prefix = "tinyvec-0.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "tinyvec",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -515,13 +495,12 @@ rust_library(
         strip_prefix = "toml-0.5.6",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "toml",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_serde//:serde"],
     proc_macro_deps = [],
     edition = "2018",
@@ -540,13 +519,12 @@ rust_library(
         strip_prefix = "ucd-trie-0.1.3",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "ucd_trie",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2018",
@@ -565,13 +543,12 @@ rust_library(
         strip_prefix = "unicode-bidi-0.3.4",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "unicode_bidi",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_matches_0.1.8//:matches"],
     proc_macro_deps = [],
     edition = "2015",
@@ -590,13 +567,12 @@ rust_library(
         strip_prefix = "unicode-normalization-0.1.13",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "unicode_normalization",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_tinyvec_0.3.4//:tinyvec"],
     proc_macro_deps = [],
     edition = "2018",
@@ -615,13 +591,12 @@ rust_library(
         strip_prefix = "unicode-xid-0.2.0",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "unicode_xid",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = [],
     proc_macro_deps = [],
     edition = "2015",
@@ -640,13 +615,12 @@ rust_library(
         strip_prefix = "url-2.1.1",
         type = "tar.gz",
         build_file_content = """
-load("@rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library")
 
 rust_library(
     name = "url",
     aliases = {},
     srcs = glob(["**/*.rs"]),
-    crate_type = "lib",
     deps = ["@blackjack_crates_io_idna_0.2.0//:idna", "@blackjack_crates_io_matches_0.1.8//:matches", "@blackjack_crates_io_percent_encoding_2.1.0//:percent_encoding"],
     proc_macro_deps = [],
     edition = "2015",
