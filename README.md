@@ -26,9 +26,8 @@ rust_repositories()
 # Set up blackjack
 http_archive(
     name = "blackjack",
-    url = "https://github.com/wildarch/blackjack/archive/f9d49ea9f93aabcea0fa9d8e90cb854c7a1de9ce.zip",
-    sha256 = "496410e369ee6a986f223071d47c5f69302abaf41840a5f3451000ee5f4739bd",
-    strip_prefix = "blackjack-f9d49ea9f93aabcea0fa9d8e90cb854c7a1de9ce",
+    url = "https://github.com/wildarch/blackjack/archive/909b66db4782cf963791aa4a24793244dffdba17.zip",
+    strip_prefix = "blackjack-909b66db4782cf963791aa4a24793244dffdba17",
 )
 load("@blackjack//:workspace.bzl", "blackjack_cargo")
 blackjack_cargo()
